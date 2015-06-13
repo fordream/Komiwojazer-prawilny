@@ -13,8 +13,16 @@ QMAKE_PROJECT_NAME = Komiwojazer
 win32 {
     CONFIG(debug, release|debug):DESTDIR = ../debug/
     CONFIG(release, release|debug):DESTDIR = ../release/
+    INCLUDEPATH += $$quote(C:/Program Files/marble/include)
+    CONFIG(Debug, Debug|Release) {
+        LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marbleVS\src\lib\marble\Debug\marblewidget-qt5d.lib)
+    } else {
+        LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marbleVS\src\lib\marble\Release\marblewidget-qt5.lib)
+    }
 } else {
     DESTDIR    = ../
+    LIBS += -L/usr/local/lib \
+    -lmarblewidget
 }
 
 QMAKE_CXXFLAGS += -std=c++0x
@@ -37,9 +45,6 @@ HEADERS  += mainwindow.h \
     komipluginmanager.h
 
 FORMS    += mainwindow.ui
-
-LIBS += -L/usr/local/lib \
-    -lmarblewidget
 
 QMAKE_CXXFLAGS += -std=c++0x
 
