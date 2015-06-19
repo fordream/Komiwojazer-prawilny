@@ -42,21 +42,26 @@
 #define KOMIWOJAZERPLUGININTERFAC_H
 
 #include <QString>
+#include <appinterface.h>
+#include <place.h>
 
 //! [0]
 class KomiwojazerPluginInterface
 {
 public:
+    explicit KomiwojazerPluginInterface() :map(0) {}
+    virtual void setMap(AppInterface * _map) {map=_map;}
     //! Destructor
     virtual ~KomiwojazerPluginInterface() {}
     //! Returns (short) name (for menu entry, etc.)
     virtual QString getName() const = 0;
     //! Returns long name/description (for tooltip, etc.)
     virtual QString getDescription() const = 0;
-    //! Returns maximum number of places that algorithm may calculate. Zero means infinate. It is good to limit something like brute force algorithm...
-    virtual unsigned int getMaxNumberOfPlaces() const = 0;
     //! Main calculating function. It tab is 2D array of cost moving from place i-th to j-th place (tab[i][j]). sorted - sorted indexes with optimal rout.
-    virtual void calculate(const double ** const &_costs, unsigned int * const &_sorted, const unsigned int _size) = 0;
+    virtual void calculate(std::vector<Place> places) = 0;
+    virtual void cancel() = 0;
+protected:
+    AppInterface * map;
 };
 
 

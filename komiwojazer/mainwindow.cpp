@@ -9,6 +9,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->prepareGUI();
     this->selectedPlace = nullptr;
+    QMap<int, QString> pluginIndexNameMap;
+        pluginManager.loadPlugin(pluginIndexNameMap);
+        for(auto e: pluginIndexNameMap.toStdMap())
+        {
+            methodsBox.addItem(e.second, QVariant(e.first));
+        }
 
 }
 
@@ -182,5 +188,25 @@ void MainWindow::place_clicked(QListWidgetItem* item)
 {
     GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
     this->map.center(geoItem->getPlace()->getCoordinates());
+
+}
+
+void MainWindow::setProgress(int value)
+{
+
+}
+
+Marble::Route MainWindow::getRoute(Coordinates from, Coordinates to)
+{
+
+}
+
+void MainWindow::drawRoute(Marble::Route route)
+{
+
+}
+
+void MainWindow::writeLog(QString text)
+{
 
 }

@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     geolistitem.cpp \
     coordinates.cpp \
     place.cpp \
-    komipluginmanager.cpp
+    komipluginmanager.cpp \
+    appinterface.cpp
 
 HEADERS  += mainwindow.h \
     mapwidget.h \
@@ -42,7 +43,8 @@ HEADERS  += mainwindow.h \
     coordinates.h \
     place.h \
     komiwojazerplugininterface.h \
-    komipluginmanager.h
+    komipluginmanager.h \
+    appinterface.h
 
 FORMS    += mainwindow.ui
 

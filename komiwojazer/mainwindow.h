@@ -13,12 +13,14 @@
 #include <coordinates.h>
 #include <place.h>
 #include <marble/Route.h>
+#include <appinterface.h>
+#include <komipluginmanager.h>
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public AppInterface
 {
     Q_OBJECT
 
@@ -43,6 +45,13 @@ private:
     Place *selectedPlace;
     void selectPlace(Place *p);
     bool checkIfItemAdded(QString text);
+    KomiPluginManager pluginManager;
+
+public:
+    virtual void setProgress(int value);
+    virtual Marble::Route getRoute(Coordinates from, Coordinates to);
+    virtual void drawRoute(Marble::Route route);
+    virtual void writeLog(QString text);
 
 public slots:
     void placeSelected(double, double, QString);
