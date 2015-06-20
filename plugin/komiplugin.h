@@ -58,7 +58,10 @@ public:
     virtual QString getName() const Q_DECL_OVERRIDE;
     virtual QString getDescription() const Q_DECL_OVERRIDE;
     virtual void calculate(std::vector<Place> &places) Q_DECL_OVERRIDE;
+public slots:
     virtual void cancel() Q_DECL_OVERRIDE;
+signals:
+    virtual void setProgress(int prog);
 };
 //! [0]
 

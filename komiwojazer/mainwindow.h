@@ -15,6 +15,7 @@
 #include <marble/Route.h>
 #include <appinterface.h>
 #include <komipluginmanager.h>
+#include "progressbardialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +47,9 @@ private:
     void selectPlace(Place *p);
     bool checkIfItemAdded(QString text);
     KomiPluginManager pluginManager;
+    ProgressBarDialog* m_progBarDial;
+    void lockGUI();
+    void unlockGUI();
 
 public:
     virtual void setProgress(int value);

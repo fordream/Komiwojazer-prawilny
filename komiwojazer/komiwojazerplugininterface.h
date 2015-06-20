@@ -59,7 +59,10 @@ public:
     virtual QString getDescription() const = 0;
     //! Main calculating function. It tab is 2D array of cost moving from place i-th to j-th place (tab[i][j]). sorted - sorted indexes with optimal rout.
     virtual void calculate(std::vector<Place> &places) = 0;
+public slots:
     virtual void cancel() = 0;
+signals:
+    virtual void setProgress(int prog) = 0;
 protected:
     AppInterface * map;
     bool m_bRunAlgorithm;

@@ -4,7 +4,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_progBarDial(new ProgressBarDialog(this))
 {
     ui->setupUi(this);
     this->prepareGUI();
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete m_progBarDial;
 }
 
 void MainWindow::prepareGUI()
@@ -168,7 +170,9 @@ void MainWindow::showListWithButtons()
 
 void MainWindow::calculate()
 {
-
+    lockGUI();
+    //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
+    unlockGUI();
 }
 
 void MainWindow::selectPlace(Place* p)
@@ -209,4 +213,14 @@ void MainWindow::drawRoute(Marble::Route route)
 void MainWindow::writeLog(QString text)
 {
 
+}
+
+void MainWindow::lockGUI()
+{
+    //michal ppk todo
+}
+
+void MainWindow::unlockGUI()
+{
+    //michal ppk todo
 }
