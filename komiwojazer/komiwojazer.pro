@@ -13,7 +13,7 @@ QMAKE_PROJECT_NAME = Komiwojazer
 win32 {
     CONFIG(debug, release|debug):DESTDIR = ../debug/
     CONFIG(release, release|debug):DESTDIR = ../release/
-    INCLUDEPATH += $$quote(C:/Program Files/marble/include)
+    INCLUDEPATH += $$quote(E:\Program Files\Marble\include)
     CONFIG(Debug, Debug|Release) {
         LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marbleVS\src\lib\marble\Debug\marblewidget-qt5d.lib)
     } else {

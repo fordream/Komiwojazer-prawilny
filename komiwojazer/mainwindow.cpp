@@ -198,7 +198,7 @@ void MainWindow::setProgress(int value)
 
 Marble::Route MainWindow::getRoute(Coordinates from, Coordinates to)
 {
-
+    return Marble::Route();
 }
 
 void MainWindow::drawRoute(Marble::Route route)

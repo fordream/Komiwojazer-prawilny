@@ -55,10 +55,10 @@ class KomiPlugin : public QObject, KomiwojazerPluginInterface
 public:
     KomiPlugin();
     ~KomiPlugin();
-    QString getName() const Q_DECL_OVERRIDE;
-    QString getDescription() const Q_DECL_OVERRIDE;
-    unsigned int getMaxNumberOfPlaces() const Q_DECL_OVERRIDE;
-    void calculate(const double ** const &_costs, unsigned int * const &_sorted, const unsigned int _size) Q_DECL_OVERRIDE;
+    virtual QString getName() const Q_DECL_OVERRIDE;
+    virtual QString getDescription() const Q_DECL_OVERRIDE;
+    virtual void calculate(std::vector<Place> &places) Q_DECL_OVERRIDE;
+    virtual void cancel() Q_DECL_OVERRIDE;
 };
 //! [0]
 
