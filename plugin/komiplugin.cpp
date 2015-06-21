@@ -55,7 +55,7 @@ KomiPlugin::~KomiPlugin()
 //! Returns (short) name (for menu entry, etc.)
 QString KomiPlugin::getName() const
 {
-    return QString("Plugin name 2");
+    return QString("Example plugin/random");
 }
 
 //! Returns long name/description (for tooltip, etc.)

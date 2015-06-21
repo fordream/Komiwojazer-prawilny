@@ -4,7 +4,7 @@ QT             += widgets
 INCLUDEPATH    += ../komiwojazer $$quote(E:\Program Files\Marble\include)
 HEADERS         = komiplugin.h
 SOURCES         = komiplugin.cpp
-TARGET          = $$qtLibraryTarget(komiPluginExample)
+TARGET          = $$qtLibraryTarget(komiPlugin-greedy)
 DESTDIR         = ../plugins
 
 win32 {

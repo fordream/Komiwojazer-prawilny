@@ -45,6 +45,7 @@
 #include <QtPlugin>
 #include "komiwojazerplugininterface.h"
 
+//! [0]
 class KomiPlugin : public QObject, KomiwojazerPluginInterface
 {
     Q_OBJECT
@@ -60,7 +61,8 @@ public:
 public slots:
     virtual void cancel() Q_DECL_OVERRIDE;
 signals:
-    void setProgress(int prog);//Q_DECL_OVERRIDE
+    void setProgress(int prog);
 };
+//! [0]
 
 #endif
