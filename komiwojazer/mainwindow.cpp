@@ -143,9 +143,13 @@ void MainWindow::addPlace()
 
 void MainWindow::deletePlace()
 {
-    GeoListItem* item=dynamic_cast<GeoListItem*>(this->placesList.takeItem(this->placesList.currentRow()));
-    this->map.deleteMarker(item->getPlace()->getCoordinates());
-    delete item;
+    int currentRow = this->placesList.currentRow();
+    if(currentRow > -1)
+    {
+        GeoListItem* item=dynamic_cast<GeoListItem*>(this->placesList.takeItem(currentRow));
+        this->map.deleteMarker(item->getPlace()->getCoordinates());
+        delete item;
+    }
 }
 
 void MainWindow::hideListWithButtons()
@@ -171,7 +175,9 @@ void MainWindow::showListWithButtons()
 void MainWindow::calculate()
 {
     lockGUI();
+    this->m_progBarDial->show();
     //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
+    this->m_progBarDial->hide();
     unlockGUI();
 }
 
@@ -207,12 +213,12 @@ Marble::Route MainWindow::getRoute(Coordinates from, Coordinates to)
 
 void MainWindow::drawRoute(Marble::Route route)
 {
-
+    this->map.drawRoute(route);
 }
 
 void MainWindow::writeLog(QString text)
 {
-
+    this->textEditLog.append(text);
 }
 
 void MainWindow::lockGUI()

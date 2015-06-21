@@ -14,4 +14,8 @@ win32 {
         LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marbleVS\src\lib\marble\Release\marblewidget-qt5.lib)
     }
 }
+else {
+    LIBS += -L/usr/local/lib \
+        -lmarblewidget-qt5
+}
 EXAMPLE_FILES = komiplugin.json

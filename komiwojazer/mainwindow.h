@@ -16,6 +16,7 @@
 #include <appinterface.h>
 #include <komipluginmanager.h>
 #include "progressbardialog.h"
+#include <QTextEdit>
 
 namespace Ui {
 class MainWindow;
@@ -42,6 +43,7 @@ private:
     QComboBox methodsBox;
     QPushButton hideList;
     QPushButton showList;
+    QTextEdit textEditLog;
     void prepareGUI();
     Place *selectedPlace;
     void selectPlace(Place *p);

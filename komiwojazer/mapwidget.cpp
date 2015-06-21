@@ -9,26 +9,23 @@ MapWidget::MapWidget()
 
 QVector<Place*> MapWidget::findPlaceByName(QString name)
 {
-    Marble::SearchRunnerManager* manager = new Marble::SearchRunnerManager( &marbleModel );
-    QVector<Marble::GeoDataPlacemark*> searchResult = manager->searchPlacemarks( name );
+    Marble::SearchRunnerManager manager( &marbleModel );
+    QVector<Marble::GeoDataPlacemark*> searchResult = manager.searchPlacemarks( name );
     QVector<Place*> places;
     for(int i=0; i<searchResult.size(); i++)
     {
-        Place* place = new Place(*places.at(i));
+        Place* place = new Place(*searchResult.at(i));
         places.push_back(place);
-        delete places.at(i);
+        delete searchResult.at(i);
     }
-    delete manager;
     return places;
 }
 
 QString MapWidget::findPlaceByCoordinates(double lon, double lat)
 {
-    Marble::ReverseGeocodingRunnerManager *manager = new Marble::ReverseGeocodingRunnerManager(&marbleModel);
-
+    Marble::ReverseGeocodingRunnerManager manager(&marbleModel);
     Marble::GeoDataCoordinates position( lon,  lat, 0.0);
-    delete manager;
-    return manager->searchReverseGeocoding(position);
+    return manager.searchReverseGeocoding(position);
 }
 
 void MapWidget::putMarker(qreal lon, qreal lat, MarkerType type)
@@ -48,11 +45,6 @@ void MapWidget::deleteMarker(Coordinates marker)
 {
     this->markers.erase(marker);
     this->update();
-}
-
-void MapWidget::drawLine()
-{
-
 }
 
 void MapWidget::drawRoute(Route route)
@@ -94,7 +86,7 @@ void MapWidget::mouseDoubleClickEvent ( QMouseEvent * event )
             QString placeDesc = this->findPlaceByCoordinates(lon, lat);
             std::cout<<"Found point jej: "<<lon<<"  "<<lat<<"  "<<placeDesc.toStdString()<<std::endl;
             emit placeSelected(lon, lat, placeDesc);
-            //this->setFocusedMarker(lon, lat);
+//            //this->setFocusedMarker(lon, lat);
         }
     }
 }

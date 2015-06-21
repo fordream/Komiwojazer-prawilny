@@ -27,7 +27,6 @@ public:
     MapWidget();
     QVector<Place*> findPlaceByName(QString name);
     QString findPlaceByCoordinates(double lon, double lat);
-    void drawLine();
     void drawRoute(Route route);
     Route findRoute(Coordinates from, Coordinates to);
     void mouseDoubleClickEvent ( QMouseEvent * event );
