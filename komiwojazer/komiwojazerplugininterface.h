@@ -42,7 +42,7 @@
 #define KOMIWOJAZERPLUGININTERFAC_H
 
 #include <QString>
-#include <appinterface.h>
+#include "appinterface.h"
 #include <place.h>
 
 //! [0]
@@ -58,7 +58,7 @@ public:
     //! Returns long name/description (for tooltip, etc.)
     virtual QString getDescription() const = 0;
     //! Main calculating function. It tab is 2D array of cost moving from place i-th to j-th place (tab[i][j]). sorted - sorted indexes with optimal rout.
-    virtual void calculate(std::vector<Place> &places) = 0;
+    virtual std::vector<Place> calculate(const std::vector<Place> places) = 0;
 public slots:
     virtual void cancel() = 0;
 signals:
