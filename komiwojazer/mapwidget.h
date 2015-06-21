@@ -15,6 +15,7 @@
 #include <marble/RoutingModel.h>
 #include <map>
 #include <place.h>
+#include <marble/MarbleMap.h>
 
 using namespace Marble;
 
@@ -29,8 +30,6 @@ public:
     void drawLine();
     void drawRoute(Route route);
     Route findRoute(Coordinates from, Coordinates to);
-    void saveRoute(QString file);
-    void drawRoute(QString file);
     void mouseDoubleClickEvent ( QMouseEvent * event );
     void setFocusedMarker(double lon, double lat);
     void setFocusedMarker(Coordinates marker);

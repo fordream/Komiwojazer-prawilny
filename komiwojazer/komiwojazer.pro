@@ -22,7 +22,7 @@ win32 {
 } else {
     DESTDIR    = ../
     LIBS += -L/usr/local/lib \
-    -lmarblewidget
+        -lmarblewidget-qt5
 }
 
 QMAKE_CXXFLAGS += -std=c++0x

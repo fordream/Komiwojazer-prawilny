@@ -66,6 +66,7 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
     std::cout<<"from"<<from.getLon()<<"  "<<from.getLat()<<std::endl;
     std::cout<<"to"<<to.getLon()<<"  "<<to.getLat()<<std::endl;
     RoutingManager* manager = this->model()->routingManager();
+    //marblewidget-qt5d
     RouteRequest* request = manager->routeRequest();
     request->clear();
     // Use default routing settings for cars
@@ -81,18 +82,6 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
     std::cout<<"distance: " <<manager->routingModel()->route().waypoints().size()<<std::endl;
     Route route=manager->routingModel()->route();
     return route;
-}
-
-void MapWidget::saveRoute(QString file)
-{
-    RoutingManager* manager = this->model()->routingManager();
-    manager->saveRoute(file);
-}
-
-void MapWidget::drawRoute(QString file)
-{
-    RoutingManager* manager = this->model()->routingManager();
-    manager->loadRoute(file);
 }
 
 void MapWidget::mouseDoubleClickEvent ( QMouseEvent * event )
