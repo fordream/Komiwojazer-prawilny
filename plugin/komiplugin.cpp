@@ -55,7 +55,7 @@ KomiPlugin::~KomiPlugin()
 //! Returns (short) name (for menu entry, etc.)
 QString KomiPlugin::getName() const
 {
-    return QString("Plugin name 2");
+    return QString("Example plugin/random");
 }
 
 //! Returns long name/description (for tooltip, etc.)
@@ -64,16 +64,12 @@ QString KomiPlugin::getDescription() const
     return QString("Plugin descrition");
 }
 
- unsigned int KomiPlugin::getMaxNumberOfPlaces() const
- {
-     return 0;
- }
-
-void KomiPlugin::calculate(const double ** const &_costs, unsigned int * const &_sorted, const unsigned int _size)
+void KomiPlugin::calculate(std::vector<Place> &places)
 {
-    for(unsigned int i = 0; i < _size; ++i)
-    {
-        _sorted[i] = i;
-    }
-    //algorithm
+
+}
+
+void KomiPlugin::cancel()
+{
+    m_bRunAlgorithm = false;
 }

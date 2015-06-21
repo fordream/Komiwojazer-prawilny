@@ -60,7 +60,7 @@ public:
 public slots:
     virtual void cancel() Q_DECL_OVERRIDE;
 signals:
-    void setProgress(int prog);//Q_DECL_OVERRIDE
+    void setProgress(int prog);
 };
 
 #endif

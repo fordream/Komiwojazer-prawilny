@@ -38,29 +38,38 @@
 **
 ****************************************************************************/
 
-#ifndef KOMIPLUGIN_H
-#define KOMIPLUGIN_H
+#include <QtWidgets>
 
-#include <QObject>
-#include <QtPlugin>
-#include "komiwojazerplugininterface.h"
+#include "komiplugin.h"
 
-class KomiPlugin : public QObject, KomiwojazerPluginInterface
+KomiPlugin::KomiPlugin()
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "ztpr.Michal.Magda.KomiwojazerPluginInterface" FILE "komiplugin.json")
-    Q_INTERFACES(KomiwojazerPluginInterface)
 
-public:
-    KomiPlugin();
-    ~KomiPlugin();
-    virtual QString getName() const Q_DECL_OVERRIDE;
-    virtual QString getDescription() const Q_DECL_OVERRIDE;
-    virtual void calculate(std::vector<Place> &places) Q_DECL_OVERRIDE;
-public slots:
-    virtual void cancel() Q_DECL_OVERRIDE;
-signals:
-    void setProgress(int prog);//Q_DECL_OVERRIDE
-};
+}
 
-#endif
+KomiPlugin::~KomiPlugin()
+{
+
+}
+
+//! Returns (short) name (for menu entry, etc.)
+QString KomiPlugin::getName() const
+{
+    return QString("Greedy");
+}
+
+//! Returns long name/description (for tooltip, etc.)
+QString KomiPlugin::getDescription() const
+{
+    return QString("Solves TSP with greedy algorythm");
+}
+
+void KomiPlugin::calculate(std::vector<Place> &places)
+{
+
+}
+
+void KomiPlugin::cancel()
+{
+    m_bRunAlgorithm = false;
+}
