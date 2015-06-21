@@ -15,7 +15,7 @@ Place::Place(Marble::GeoDataPlacemark place)
     this->coordinates = place.coordinate();
 }
 
-Coordinates Place::getCoordinates()
+Coordinates Place::getCoordinates() const
 {
     return this->coordinates;
 }

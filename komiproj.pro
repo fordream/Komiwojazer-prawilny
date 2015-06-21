@@ -1,5 +1,6 @@
 TEMPLATE    = subdirs
-SUBDIRS	    = komiwojazer \
-    plugin \
+SUBDIRS	    = KOMI_MAIN_LIB \
+        komiwojazer \
+        plugin \
 	plugin-2-opt \
-	plugin-greedy
+	plugin-greedy \

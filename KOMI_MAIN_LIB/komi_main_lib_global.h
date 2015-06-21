@@ -1,0 +1,12 @@
+#ifndef KOMI_MAIN_LIB_GLOBAL_H
+#define KOMI_MAIN_LIB_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(KOMI_MAIN_LIB_LIBRARY)
+#  define KOMI_MAIN_LIBSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define KOMI_MAIN_LIBSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // KOMI_MAIN_LIB_GLOBAL_H

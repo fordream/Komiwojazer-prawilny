@@ -3,14 +3,15 @@
 #include <coordinates.h>
 #include <QString>
 #include <marble/GeoDataPlacemark.h>
+#include "komi_main_lib_global.h"
 
-class Place
+class KOMI_MAIN_LIBSHARED_EXPORT Place
 {
 public:
     Place();
     Place(Coordinates coor, QString name);
     Place(Marble::GeoDataPlacemark);
-    Coordinates getCoordinates();
+    Coordinates getCoordinates() const;
     QString getName();
 
 private:

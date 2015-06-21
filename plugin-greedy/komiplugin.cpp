@@ -64,9 +64,10 @@ QString KomiPlugin::getDescription() const
     return QString("Solves TSP with greedy algorythm");
 }
 
-void KomiPlugin::calculate(std::vector<Place> &places)
+std::vector<Place> KomiPlugin::calculate(const std::vector<Place> places)
 {
-
+    std::vector<Place> v_toRet;
+    return v_toRet;
 }
 
 void KomiPlugin::cancel()
