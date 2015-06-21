@@ -49,7 +49,9 @@ void MapWidget::deleteMarker(Coordinates marker)
 
 void MapWidget::drawRoute(Route route)
 {
-
+    RoutingManager* manager = this->model()->routingManager();
+    manager->routingModel()->setRoute(route);
+    this->show();
 }
 
 Route MapWidget::findRoute(Coordinates from, Coordinates to)

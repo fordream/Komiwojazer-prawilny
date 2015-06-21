@@ -176,6 +176,10 @@ void MainWindow::calculate()
 {
     lockGUI();
     this->m_progBarDial->show();
+    KomiwojazerPluginInterface* plugin = this->pluginManager.getPluginByIndex(this->methodsBox.currentIndex());
+    //connect(plugin, SIGNAL(setProgress(int)), this, SLOT(setProgress(int)));
+    //connect(this->m_progBarDial, SIGNAL(cancelButtonClicked()), plugin, SLOT(cancel()));
+    //plugin->calculate();
     //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
     this->m_progBarDial->hide();
     unlockGUI();
@@ -191,7 +195,7 @@ void MainWindow::selectPlace(Place* p)
     delete this->selectedPlace;
     this->selectedPlace = p;
     this->addPlaceButton.show();
-    this->map.center(p->getCoordinates());
+    //this->map.center(p->getCoordinates());
 }
 
 void MainWindow::place_clicked(QListWidgetItem* item)
@@ -203,7 +207,7 @@ void MainWindow::place_clicked(QListWidgetItem* item)
 
 void MainWindow::setProgress(int value)
 {
-
+    this->m_progBarDial->getProgress(value);
 }
 
 Marble::Route MainWindow::getRoute(Coordinates from, Coordinates to)

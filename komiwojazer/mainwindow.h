@@ -54,12 +54,12 @@ private:
     void unlockGUI();
 
 public:
-    virtual void setProgress(int value);
     virtual Marble::Route getRoute(Coordinates from, Coordinates to);
     virtual void drawRoute(Marble::Route route);
     virtual void writeLog(QString text);
 
 public slots:
+    virtual void setProgress(int value);
     void placeSelected(double, double, QString);
     void searchButton_clicked();
     void suggestion_clicked(QListWidgetItem* item);
