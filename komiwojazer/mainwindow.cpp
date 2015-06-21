@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
         {
             methodsBox.addItem(e.second, QVariant(e.first));
         }
-
 }
 
 MainWindow::~MainWindow()
@@ -176,6 +175,12 @@ void MainWindow::calculate()
 {
     lockGUI();
     this->m_progBarDial->show();
+    KomiwojazerPluginInterface* inteface = pluginManager.getPluginByIndex(methodsBox.currentIndex());
+    QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
+                    dynamic_cast<QObject*>(inteface), SLOT(cancel()));
+    std::vector<Place> v_places;
+    inteface->calculate(v_places);
+    QObject::disconnect(connection);
     //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
     this->m_progBarDial->hide();
     unlockGUI();
@@ -203,7 +208,7 @@ void MainWindow::place_clicked(QListWidgetItem* item)
 
 void MainWindow::setProgress(int value)
 {
-
+    m_progBarDial->setProgress(value);
 }
 
 Marble::Route MainWindow::getRoute(Coordinates from, Coordinates to)

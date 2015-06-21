@@ -61,8 +61,6 @@ public:
     virtual std::vector<Place> calculate(const std::vector<Place> places) = 0;
 public slots:
     virtual void cancel() = 0;
-signals:
-    virtual void setProgress(int prog) = 0;
 protected:
     AppInterface * map;
     bool m_bRunAlgorithm;

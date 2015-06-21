@@ -14,10 +14,10 @@ class ProgressBarDialog : public QDialog
 public:
     explicit ProgressBarDialog(QWidget *parent = 0);
     ~ProgressBarDialog();
+
+    void setProgress(int prog);
 signals:
     void cancelButtonClicked();
-public slots:
-    void getProgress(int prog);
 private:
     Ui::ProgressBarDialog *ui;
 };

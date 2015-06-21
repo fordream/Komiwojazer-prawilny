@@ -41,7 +41,7 @@
 #include <QtWidgets>
 
 #include "komiplugin.h"
-#include "place.h"
+#include <place.h>
 
 KomiPlugin::KomiPlugin()
 {
@@ -56,7 +56,7 @@ KomiPlugin::~KomiPlugin()
 //! Returns (short) name (for menu entry, etc.)
 QString KomiPlugin::getName() const
 {
-    return QString("2-opt dfa");
+    return QString("2-opt");
 }
 
 //! Returns long name/description (for tooltip, etc.)
@@ -67,28 +67,8 @@ QString KomiPlugin::getDescription() const
 
 std::vector<Place> KomiPlugin::calculate(const std::vector<Place> places)
 {
-    int size = places.size();
-    Marble::Route** routes = new Marble::Route*[size];
-    for(int i = 0; i < size; ++i)
-    {
-        routes[i] =  new Marble::Route[size];
-        for(int j = 0; j < size; ++j)
-        {
-                routes[i][j] = map->getRoute(places.at(i).getCoordinates(), places.at(j).getCoordinates());
-        }
-    }
-
+    //michal ppk todo
     std::vector<Place> v_toRet;
-
-
-
-    for(int i = 0; i < size; ++i)
-    {
-        delete[] routes[i];
-    }
-    delete[] routes;
-
-
     return v_toRet;
 }
 

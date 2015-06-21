@@ -67,6 +67,56 @@ QString KomiPlugin::getDescription() const
 std::vector<Place> KomiPlugin::calculate(const std::vector<Place> places)
 {
     std::vector<Place> v_toRet;
+    int size = places.size();
+    if(size == 0)
+        return v_toRet;
+
+    Marble::Route** routes = new Marble::Route*[size];
+    for(int i = 0; i < size; ++i)
+    {
+        routes[i] =  new Marble::Route[size];
+        for(int j = 0; j < size; ++j)
+        {
+                routes[i][j] = map->getRoute(places.at(i).getCoordinates(), places.at(j).getCoordinates());
+        }
+    }
+
+    std::vector<int> v_usedPlaces;
+    v_usedPlaces.push_back(0);
+
+    qreal min = std::numeric_limits<qreal>::max();
+    int index;
+    while(v_usedPlaces.size() != size)
+    {
+        for(int i = 0; i < size; ++i)
+        {
+            if(v_usedPlaces.end() != std::find(v_usedPlaces.begin(), v_usedPlaces.end(), i))
+            {
+                continue;
+            }
+
+            if(routes[v_usedPlaces.back()][i].distance() < min)
+            {
+                min = routes[v_usedPlaces.back()][i].distance();
+                index = i;
+            }
+        }
+        v_usedPlaces.push_back(index);
+
+        QApplication::processEvents();
+        if(!m_bRunAlgorithm)
+            return v_toRet;
+    }
+
+    for(int i = 0; i < size; ++i)
+    {
+        delete[] routes[i];
+    }
+    delete[] routes;
+
+    for(auto it = v_usedPlaces.begin(); it != v_usedPlaces.end(); ++it)
+        v_toRet.push_back(places.at(*it));
+
     return v_toRet;
 }
 
