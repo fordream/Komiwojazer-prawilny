@@ -20,3 +20,4 @@ else {
         -lmarblewidget-qt5
 }
 EXAMPLE_FILES = komiplugin.json
+QMAKE_CXXFLAGS += -std=c++0x
