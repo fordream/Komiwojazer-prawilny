@@ -60,8 +60,6 @@ public:
     virtual std::vector<Place> calculate(const std::vector<Place> places) Q_DECL_OVERRIDE;
 public slots:
     virtual void cancel() Q_DECL_OVERRIDE;
-signals:
-    void setProgress(int prog);
 };
 //! [0]
 

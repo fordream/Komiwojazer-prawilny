@@ -36,8 +36,8 @@ win32 {
 } unix {
     DESTDIR    = ../
     LIBS += -L/usr/local/lib \
-    -lmarblewidget
-    target.path = /usr/lib
+    -lmarblewidget-qt5
     INSTALLS += target
 }
 
+QMAKE_CXXFLAGS += -std=c++0x

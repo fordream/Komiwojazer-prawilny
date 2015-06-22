@@ -15,7 +15,7 @@ ProgressBarDialog::~ProgressBarDialog()
     delete ui;
 }
 
-void ProgressBarDialog::getProgress(int prog)
+void ProgressBarDialog::setProgress(int prog)
 {
     ui->progressBar->setValue(prog);
 }
