@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "komi_main_lib.h"
 #include <QMainWindow>
 #include <mapwidget.h>
 #include <QLabel>

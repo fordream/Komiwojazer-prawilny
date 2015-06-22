@@ -21,10 +21,11 @@ win32 {
     }
 } else {
     DESTDIR    = ../
-    INCLUDEPATH += ../komi_main_lib
+    DEPENDPATH += . ../KOMI_MAIN_LIB
+    INCLUDEPATH += ../KOMI_MAIN_LIB
     LIBS += -L/usr/local/lib \
         -lmarblewidget-qt5 \
-        -L../komi_main_lib/debug -lkomi_main_lib
+        -L../KOMI_MAIN_LIB/debug -lKOMI_MAIN_LIB
 }
 
 QMAKE_CXXFLAGS += -std=c++0x
