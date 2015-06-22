@@ -65,10 +65,10 @@ QString KomiPlugin::getDescription() const
     return QString("Solves TSP with 2-opt algorythm");
 }
 
-std::vector<Place> KomiPlugin::calculate(const std::vector<Place> places)
+std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 {
     //michal ppk todo
-    std::vector<Place> v_toRet;
+    std::vector<Place*> v_toRet;
     return v_toRet;
 }
 

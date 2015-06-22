@@ -11,11 +11,12 @@ MainWindow::MainWindow(QWidget *parent) :
     this->prepareGUI();
     this->selectedPlace = nullptr;
     QMap<int, QString> pluginIndexNameMap;
-        pluginManager.loadPlugin(pluginIndexNameMap);
-        for(auto e: pluginIndexNameMap.toStdMap())
-        {
-            methodsBox.addItem(e.second, QVariant(e.first));
-        }
+    pluginManager.loadPlugin(pluginIndexNameMap);
+    for(auto e: pluginIndexNameMap.toStdMap())
+    {
+        methodsBox.addItem(e.second, QVariant(e.first));
+        pluginManager.getPluginByIndex(e.first)->setMap(this);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -36,7 +37,7 @@ void MainWindow::prepareGUI()
     this->searchButton.resize(30, 30);
     QIcon loupIcon(":/images/loupe.png");
     this->searchButton.setIcon(loupIcon);
-    this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
+    this->map.setMapThemeId("earth/plain/plain.dgml");
 
     this->suggestionsList.setParent(this);
     this->suggestionsList.resize(400, 200);
@@ -93,6 +94,7 @@ void MainWindow::placeSelected(double lon, double lat, QString description)
     Place* place=new Place(Coordinates(lon, lat), description);
     this->selectPlace(place);
 }
+
 
 void MainWindow::searchButton_clicked()
 {
@@ -179,12 +181,12 @@ void MainWindow::calculate()
     QMetaObject::Connection connectionProgresBar = QObject::connect(dynamic_cast<QObject*>(interface), SIGNAL(setProgress(int)), this, SLOT(setProgress(int)));
     QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
                     dynamic_cast<QObject*>(interface), SLOT(cancel()));
-    std::vector<Place> v_places;
+    std::vector<Place*> v_places;
     for(int i=0; i<this->placesList.count(); i++)
     {
         QListWidgetItem* item = this->placesList.item(i);
         GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
-        v_places.push_back(*geoItem->getPlace());
+        v_places.push_back(geoItem->getPlace());
     }
     interface->calculate(v_places);
     QObject::disconnect(connection);
@@ -221,7 +223,7 @@ void MainWindow::setProgress(int value)
 
 Marble::Route MainWindow::getRoute(Coordinates from, Coordinates to)
 {
-    return Marble::Route();
+    return this->map.findRoute(from, to);
 }
 
 void MainWindow::drawRoute(Marble::Route route)

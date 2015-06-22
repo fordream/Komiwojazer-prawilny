@@ -64,9 +64,17 @@ QString KomiPlugin::getDescription() const
     return QString("Plugin descrition");
 }
 
-std::vector<Place> KomiPlugin::calculate(const std::vector<Place> places)
+std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 {
-    std::vector<Place> v_toRet = places;
+    for(int i = 0; i < 100000; ++i)
+    {
+        for(int j = 0; j < 1000; ++j)
+        {
+
+        }
+    }
+
+    std::vector<Place*> v_toRet = places;
     return v_toRet;
 }
 

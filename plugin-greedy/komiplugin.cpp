@@ -64,9 +64,9 @@ QString KomiPlugin::getDescription() const
     return QString("Solves TSP with greedy algorythm");
 }
 
-std::vector<Place> KomiPlugin::calculate(const std::vector<Place> places)
+std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 {
-    std::vector<Place> v_toRet;
+    std::vector<Place*> v_toRet;
     int size = places.size();
     if(size == 0)
         return v_toRet;
@@ -77,7 +77,9 @@ std::vector<Place> KomiPlugin::calculate(const std::vector<Place> places)
         routes[i] =  new Marble::Route[size];
         for(int j = 0; j < size; ++j)
         {
-                routes[i][j] = map->getRoute(places.at(i).getCoordinates(), places.at(j).getCoordinates());
+            Coordinates from = places[i]->getCoordinates();
+            Coordinates to = places[j]->getCoordinates();
+            routes[i][j] = map->getRoute(from, to);
         }
     }
 

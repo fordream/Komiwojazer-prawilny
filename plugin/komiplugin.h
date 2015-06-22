@@ -56,7 +56,7 @@ public:
     ~KomiPlugin();
     virtual QString getName() const Q_DECL_OVERRIDE;
     virtual QString getDescription() const Q_DECL_OVERRIDE;
-    virtual std::vector<Place> calculate(const std::vector<Place> places) Q_DECL_OVERRIDE;
+    virtual std::vector<Place*> calculate(const std::vector<Place*> places) Q_DECL_OVERRIDE;
 public slots:
     virtual void cancel() Q_DECL_OVERRIDE;
 };
