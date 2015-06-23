@@ -1,7 +1,7 @@
 TEMPLATE        = lib
 CONFIG         += plugins
 QT             += widgets
-INCLUDEPATH    += ../komiwojazer $$quote(E:\Program Files\Marble\include) ../KOMI_MAIN_LIB
+INCLUDEPATH    += ../komiwojazer $$quote(C:\Program Files\marble\include) ../KOMI_MAIN_LIB
 HEADERS         = komiplugin.h
 SOURCES         = komiplugin.cpp
 TARGET          = $$qtLibraryTarget(komiPluginExample)

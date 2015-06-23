@@ -27,7 +27,7 @@ HEADERS += komi_main_lib.h\
 win32 {
     CONFIG(debug, release|debug):DESTDIR = ../debug/
     CONFIG(release, release|debug):DESTDIR = ../release/
-    INCLUDEPATH += $$quote(E:\Program Files\Marble\include)
+    INCLUDEPATH += $$quote(C:\Program Files\marble\include)
     CONFIG(Debug, Debug|Release) {
         LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marbleVS\src\lib\marble\Debug\marblewidget-qt5d.lib)
     } else {

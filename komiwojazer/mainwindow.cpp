@@ -17,6 +17,45 @@ MainWindow::MainWindow(QWidget *parent) :
         methodsBox.addItem(e.second, QVariant(e.first));
         pluginManager.getPluginByIndex(e.first)->setMap(this);
     }
+
+    /*michal ppk settings and testing*
+    RoutingManager *const routingManager = map.model()->routingManager();
+    routingManager->readSettings();
+    //bool const startupWarning = settings.value( "showGuidanceModeStartupWarning", QVariant( true ) ).toBool();
+    //routingManager->setShowGuidanceModeStartupWarning( startupWarning );
+
+    QColor tempColor;
+    tempColor = QColor(Oxygen::skyBlue4.name());
+    tempColor.setAlpha(200);
+    routingManager->setRouteColorStandard( tempColor );
+
+    tempColor = QColor(Oxygen::skyBlue1.name());
+    tempColor.setAlpha(200);
+    routingManager->setRouteColorHighlighted( tempColor );
+
+    tempColor = QColor(Oxygen::aluminumGray4.name());
+    tempColor.setAlpha(200);
+    routingManager->setRouteColorAlternative( tempColor );
+
+    // Access the shared route request (start, destination and parameters)
+    RoutingManager* manager = map.model()->routingManager();
+    RouteRequest* request = manager->routeRequest();
+
+    // Use default routing settings for cars
+    request->setRoutingProfile( manager->defaultProfile( RoutingProfile::Motorcar ) );
+
+    // Set start and destination
+    request->append( GeoDataCoordinates( 8.38942, 48.99738, 0.0, GeoDataCoordinates::Degree ) );
+    request->append( GeoDataCoordinates( 8.42002, 49.0058, 0.0, GeoDataCoordinates::Degree ) );
+
+    // Calculate the route
+    manager->retrieveRoute();
+
+    // Center the map on the route start point and show it
+    map.centerOn( request->at( 0 ) );
+    map.setDistance( 0.75 );
+    map.show();
+    /*michal ppk*/
 }
 
 MainWindow::~MainWindow()
@@ -37,7 +76,7 @@ void MainWindow::prepareGUI()
     this->searchButton.resize(30, 30);
     QIcon loupIcon(":/images/loupe.png");
     this->searchButton.setIcon(loupIcon);
-    this->map.setMapThemeId("earth/plain/plain.dgml");
+    this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
 
     this->suggestionsList.setParent(this);
     this->suggestionsList.resize(400, 200);
