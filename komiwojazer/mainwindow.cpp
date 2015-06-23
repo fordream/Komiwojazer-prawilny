@@ -217,9 +217,9 @@ void MainWindow::calculate()
     lockGUI();
     this->m_progBarDial->show();
     KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(methodsBox.currentIndex());
-    QMetaObject::Connection connectionProgresBar = QObject::connect(dynamic_cast<QObject*>(interface), SIGNAL(setProgress(int)), this, SLOT(setProgress(int)));
-    QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
-                    dynamic_cast<QObject*>(interface), SLOT(cancel()));
+    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
+    //QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
+    //                qobject_cast<QObject*>(interface), SLOT(cancel()));
     std::vector<Place*> v_places;
     for(int i=0; i<this->placesList.count(); i++)
     {
@@ -227,9 +227,9 @@ void MainWindow::calculate()
         GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
         v_places.push_back(geoItem->getPlace());
     }
+    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), false);
     interface->calculate(v_places);
-    QObject::disconnect(connection);
-    QObject::disconnect(connectionProgresBar);
+    //QObject::disconnect(connection);
     //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
     this->m_progBarDial->hide();
     unlockGUI();
