@@ -20,6 +20,8 @@ public:
     void addItem(QListWidgetItem* item);
     void addItemToBox(QString text, QVariant var);
     bool itemExist(QString name);
+    std::vector<QListWidgetItem *> getAllItems();
+    int getComboBoxItemNum();
 
 private slots:
     void on_button_delete_clicked();

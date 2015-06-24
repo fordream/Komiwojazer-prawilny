@@ -38,7 +38,7 @@ win32 {
 } unix {
     DESTDIR    = ../
     LIBS += -L/usr/local/lib \
-    -lmarblewidget-qt5
+    -lmarblewidget
     INSTALLS += target
 }
 

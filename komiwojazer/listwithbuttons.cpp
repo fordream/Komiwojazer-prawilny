@@ -67,3 +67,19 @@ bool ListWithButtons::itemExist(QString name)
 {
     return 0!=ui->list->findItems(name, Qt::MatchExactly).size();
 }
+
+std::vector<QListWidgetItem*> ListWithButtons::getAllItems()
+{
+    std::vector<QListWidgetItem*> items;
+    for(int i=0; i<ui->list->count(); i++)
+    {
+        QListWidgetItem* item = ui->list->item(i);
+        items.push_back(item);
+    }
+    return items;
+}
+
+int ListWithButtons::getComboBoxItemNum()
+{
+    return ui->comboBox->currentIndex();
+}

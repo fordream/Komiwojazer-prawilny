@@ -51,7 +51,7 @@ private:
     void unlockGUI();
 
 public:
-    virtual Marble::Route getRoute(Coordinates from, Coordinates to);
+    virtual Route getRoute(Coordinates from, Coordinates to);
     virtual void drawRoute(Marble::Route route);
     virtual void writeLog(QString text);
 
@@ -62,7 +62,6 @@ public slots:
     void deletePlace(QListWidgetItem *);
     void calculate(int pluginNum);
     void place_clicked(QListWidgetItem*);
-    void routeRetrivedSlot(GeoDataDocument*);
     void suggestion_clicked(QListWidgetItem* item);
     void searchButton_clicked(QString text);
 

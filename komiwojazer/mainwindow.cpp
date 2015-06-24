@@ -89,7 +89,6 @@ void MainWindow::prepareGUI()
     connect(&this->list, SIGNAL(btn_delete_click(QListWidgetItem*)), this, SLOT(deletePlace(QListWidgetItem*)));
     connect(&this->list, SIGNAL(btn_calculate_click(int)), this, SLOT(calculate(int)));
     connect(&this->list, SIGNAL(item_clicked(QListWidgetItem*)), this, SLOT(place_clicked(QListWidgetItem*)));
-    connect(this->map.model()->routingManager(), SIGNAL(routeRetrieved(GeoDataDocument*)), this, SLOT(routeRetrivedSlot(GeoDataDocument*)));
 }
 
 
@@ -149,26 +148,26 @@ void MainWindow::deletePlace(QListWidgetItem* item)
 
 void MainWindow::calculate(int pluginNum)
 {
-    //this->map.findRoute(Coordinates(0, 0), Coordinates(0,0));
-//    lockGUI();
-//    this->m_progBarDial->show();
-//    KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(methodsBox.currentIndex());
-//    QMetaObject::Connection connectionProgresBar = QObject::connect(dynamic_cast<QObject*>(interface), SIGNAL(setProgress(int)), this, SLOT(setProgress(int)));
-//    QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
-//                    dynamic_cast<QObject*>(interface), SLOT(cancel()));
-//    std::vector<Place*> v_places;
-//    for(int i=0; i<this->placesList.count(); i++)
-//    {
-//        QListWidgetItem* item = this->placesList.item(i);
-//        GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
-//        v_places.push_back(geoItem->getPlace());
-//    }
-//    interface->calculate(v_places);
-//    QObject::disconnect(connection);
-//    QObject::disconnect(connectionProgresBar);
-//    //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
-//    this->m_progBarDial->hide();
-//    unlockGUI();
+    this->map.findRoute(Coordinates(0, 0), Coordinates(0,0));
+    lockGUI();
+    this->m_progBarDial->show();
+    KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(list.getComboBoxItemNum());
+    QMetaObject::Connection connectionProgresBar = QObject::connect(dynamic_cast<QObject*>(interface), SIGNAL(setProgress(int)), this, SLOT(setProgress(int)));
+    QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
+                    dynamic_cast<QObject*>(interface), SLOT(cancel()));
+    std::vector<Place*> v_places;
+    std::vector<QListWidgetItem*> items = list.getAllItems();
+    for(int i=0; i<items.size(); i++)
+    {
+        QListWidgetItem* item = items.at(i);
+        GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
+        v_places.push_back(geoItem->getPlace());
+    }
+    interface->calculate(v_places);
+    QObject::disconnect(connection);
+    QObject::disconnect(connectionProgresBar);
+    this->m_progBarDial->hide();
+    unlockGUI();
 }
 
 //void MainWindow::calculate()
@@ -248,8 +247,3 @@ void MainWindow::unlockGUI()
     map.setEnabled(true);
 }
 
-void MainWindow::routeRetrivedSlot(GeoDataDocument* doc)
-{
-    Route route = this->map.model()->routingManager()->routingModel()->route();
-    emit routeFoundSignal(&route);
-}

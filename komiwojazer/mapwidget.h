@@ -16,6 +16,8 @@
 #include <map>
 #include <place.h>
 #include <marble/MarbleMap.h>
+#include <marble/GeoDataCoordinates.h>
+#include <QEventLoop>
 
 using namespace Marble;
 
@@ -42,14 +44,17 @@ private:
     std::map<Coordinates, MarkerType> markers;
     QImage getMarkerIcon(MarkerType type);
     Coordinates focusedMarker;
+    Route route;
 
 public slots:
     void putMarker(qreal lon, qreal lat, MarkerType type=Normal);
     void putMarker(Coordinates marker, MarkerType type=Normal);
     void deleteMarker(Coordinates marker);
+    void routeRetrivedSlot(GeoDataDocument*);
 
 signals:
     void placeSelected(double, double, QString);
+    void routeFoundSignal();
 
 
 };

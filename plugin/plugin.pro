@@ -21,7 +21,7 @@ else {
     DEPENDPATH += ../KOMI_MAIN_LIB
     INCLUDEPATH += ../KOMI_MAIN_LIB ../komiwojazer
     LIBS += -L/usr/local/lib \
-        -lmarblewidget-qt5 \
+        -lmarblewidget \
         -L../ -lKOMI_MAIN_LIB
 }
 EXAMPLE_FILES = komiplugin.json
