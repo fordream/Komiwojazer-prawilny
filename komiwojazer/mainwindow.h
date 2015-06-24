@@ -18,6 +18,9 @@
 #include <komipluginmanager.h>
 #include "progressbardialog.h"
 #include <QTextEdit>
+#include <QGridLayout>
+#include <listwithbuttons.h>
+#include<browser.h>
 
 namespace Ui {
 class MainWindow;
@@ -34,17 +37,10 @@ public:
 private:
     Ui::MainWindow *ui;
     MapWidget map;
-    QPushButton searchButton;
-    QLineEdit searchInput;
-    QListWidget suggestionsList;
-    QPushButton addPlaceButton;
-    QListWidget placesList;
-    QPushButton deleteButton;
-    QPushButton calculateButton;
-    QComboBox methodsBox;
-    QPushButton hideList;
-    QPushButton showList;
     QTextEdit textEditLog;
+    QGridLayout controlsLayout;
+    ListWithButtons list;
+    Browser browser;
     void prepareGUI();
     Place *selectedPlace;
     void selectPlace(Place *p);
@@ -62,15 +58,16 @@ public:
 public slots:
     virtual void setProgress(int value);
     void placeSelected(double, double, QString);
-    void searchButton_clicked();
-    void suggestion_clicked(QListWidgetItem* item);
-    void showZoom(int);
-    void addPlace();
-    void deletePlace();
-    void hideListWithButtons();
-    void showListWithButtons();
-    void calculate();
+    void addPlace(QListWidgetItem *);
+    void deletePlace(QListWidgetItem *);
+    void calculate(int pluginNum);
     void place_clicked(QListWidgetItem*);
+    void routeRetrivedSlot(GeoDataDocument*);
+    void suggestion_clicked(QListWidgetItem* item);
+    void searchButton_clicked(QString text);
+
+signals:
+    void routeFoundSignal(Marble::Route* route);
 };
 
 #endif // MAINWINDOW_H

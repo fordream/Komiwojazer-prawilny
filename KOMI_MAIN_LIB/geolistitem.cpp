@@ -19,3 +19,8 @@ GeoListItem::~GeoListItem()
 {
     delete this->place;
 }
+
+GeoListItem* GeoListItem::clone()
+{
+    return new GeoListItem(this->place);
+}

@@ -14,6 +14,9 @@ public:
     virtual void drawRoute(Marble::Route route) = 0;
     virtual void writeLog(QString text) = 0;
 
+signals:
+    virtual void routeFoundSignal(Marble::Route* route) = 0;
+
 
 };
 

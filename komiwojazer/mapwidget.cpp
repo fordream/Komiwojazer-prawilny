@@ -60,19 +60,19 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
     std::cout<<"from"<<from.getLon()<<"  "<<from.getLat()<<std::endl;
     std::cout<<"to"<<to.getLon()<<"  "<<to.getLat()<<std::endl;
     RoutingManager* manager = this->model()->routingManager();
-    //marblewidget-qt5d
     RouteRequest* request = manager->routeRequest();
-    request->clear();
+    //request->clear();
     // Use default routing settings for cars
     request->setRoutingProfile( manager->defaultProfile( RoutingProfile::Motorcar ) );
 
     // Set start and destination
-    request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
-    request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
-
+    //request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
+    //request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
+    request->append( GeoDataCoordinates( 8.38942, 48.99738, 0.0, GeoDataCoordinates::Degree ) );
+    request->append( GeoDataCoordinates( 8.42002, 49.0058, 0.0, GeoDataCoordinates::Degree ) );
     manager->retrieveRoute();
 
-    //this->show();
+    this->show();
     std::cout<<"distance: " <<manager->routingModel()->route().waypoints().size()<<std::endl;
     Route route=manager->routingModel()->route();
     return route;
@@ -121,3 +121,4 @@ void MapWidget::center(Coordinates c)
 {
     this->centerOn(GeoDataCoordinates(c.getLon(), c.getLat(), 0, GeoDataCoordinates::Radian));
 }
+

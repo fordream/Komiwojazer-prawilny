@@ -36,17 +36,23 @@ SOURCES += main.cpp\
     mapwidget.cpp \
     komipluginmanager.cpp \
     appinterface.cpp \
-    progressbardialog.cpp
+    progressbardialog.cpp \
+    listwithbuttons.cpp \
+    browser.cpp
 
 HEADERS  += mainwindow.h \
     mapwidget.h \
     komiwojazerplugininterface.h \
     komipluginmanager.h \
     appinterface.h \
-    progressbardialog.h
+    progressbardialog.h \
+    listwithbuttons.h \
+    browser.h
 
 FORMS    += mainwindow.ui \
-    progressbardialog.ui
+    progressbardialog.ui \
+    listwithbuttons.ui \
+    browser.ui
 
 QMAKE_CXXFLAGS += -std=c++0x
 

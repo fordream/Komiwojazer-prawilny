@@ -11,6 +11,7 @@ public:
     ~GeoListItem();
     GeoListItem(Place* place);
     Place *getPlace();
+    virtual GeoListItem* clone();
 
 private:
     Place* place;
