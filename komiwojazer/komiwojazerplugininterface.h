@@ -59,7 +59,7 @@ public:
     virtual QString getDescription() const = 0;
     //! Main calculating function. It tab is 2D array of cost moving from place i-th to j-th place (tab[i][j]). sorted - sorted indexes with optimal rout.
     virtual std::vector<Place*> calculate(const std::vector<Place*> places) = 0;
-    virtual bool connectToSLOT(QObject* pReceiver, const char* pszSlot, bool bConnect) const = 0;
+    //virtual bool connectToSLOT(QObject* pReceiver, const char* pszSlot, bool bConnect) const = 0;
 public slots:
     virtual void cancel() = 0;
 protected:

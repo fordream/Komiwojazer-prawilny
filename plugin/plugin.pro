@@ -1,13 +1,14 @@
 TEMPLATE        = lib
 CONFIG         += plugins
 QT             += widgets
-INCLUDEPATH    += ../komiwojazer $$quote(C:\Program Files (x86)\marble\include) ../KOMI_MAIN_LIB
 HEADERS         = komiplugin.h
 SOURCES         = komiplugin.cpp
 TARGET          = $$qtLibraryTarget(komiPluginExample)
 DESTDIR         = ../plugins
 
 win32 {
+    INCLUDEPATH    += ../komiwojazer $$quote(C:\Program Files (x86)\marble\include) ../KOMI_MAIN_LIB
+
     CONFIG(Debug, Debug|Release) {
         LIBS += $$quote(C:\Program Files (x86)\marble\libmarblewidget-qt5d.dll) $$quote(../debug/KOMI_MAIN_LIB.dll)
         #LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marble\build\src\lib\marble\libmarblewidget-qt5.dll.a) $$quote(../debug/libKOMI_MAIN_LIB.a)
@@ -17,8 +18,11 @@ win32 {
     }
 }
 else {
+    DEPENDPATH += ../KOMI_MAIN_LIB
+    INCLUDEPATH += ../KOMI_MAIN_LIB ../komiwojazer
     LIBS += -L/usr/local/lib \
-        -lmarblewidget-qt5
+        -lmarblewidget-qt5 \
+        -L../ -lKOMI_MAIN_LIB
 }
 EXAMPLE_FILES = komiplugin.json
 QMAKE_CXXFLAGS += -std=c++0x

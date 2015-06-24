@@ -141,9 +141,8 @@ void MainWindow::addPlace(QListWidgetItem* item)
 
 void MainWindow::deletePlace(QListWidgetItem* item)
 {
-<<<<<<< HEAD
+
     GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
-    Coordinates coor = geoItem->getPlace()->getCoordinates();
     this->map.deleteMarker(geoItem->getPlace()->getCoordinates());
     delete geoItem;
 }
@@ -170,59 +169,30 @@ void MainWindow::calculate(int pluginNum)
 //    //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
 //    this->m_progBarDial->hide();
 //    unlockGUI();
-=======
-    int currentRow = this->placesList.currentRow();
-    if(currentRow > -1)
-    {
-        GeoListItem* item=dynamic_cast<GeoListItem*>(this->placesList.takeItem(currentRow));
-        this->map.deleteMarker(item->getPlace()->getCoordinates());
-        delete item;
-    }
 }
 
-void MainWindow::hideListWithButtons()
-{
-    this->placesList.hide();
-    this->deleteButton.hide();
-    this->calculateButton.hide();
-    this->methodsBox.hide();
-    this->hideList.hide();
-    this->showList.show();
-}
-
-void MainWindow::showListWithButtons()
-{
-    this->placesList.show();
-    this->deleteButton.show();
-    this->calculateButton.show();
-    this->methodsBox.show();
-    this->hideList.show();
-    this->showList.hide();
-}
-
-void MainWindow::calculate()
-{
-    lockGUI();
-    this->m_progBarDial->show();
-    KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(methodsBox.currentIndex());
-    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
-    //QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
-    //                qobject_cast<QObject*>(interface), SLOT(cancel()));
-    std::vector<Place*> v_places;
-    for(int i=0; i<this->placesList.count(); i++)
-    {
-        QListWidgetItem* item = this->placesList.item(i);
-        GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
-        v_places.push_back(geoItem->getPlace());
-    }
-    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), false);
-    interface->calculate(v_places);
-    //QObject::disconnect(connection);
-    //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
-    this->m_progBarDial->hide();
-    unlockGUI();
->>>>>>> ae9a40bf366365d9011d8127848eab6ed9996c6a
-}
+//void MainWindow::calculate()
+//{
+//    lockGUI();
+//    this->m_progBarDial->show();
+//    KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(methodsBox.currentIndex());
+//    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
+//    //QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
+//    //                qobject_cast<QObject*>(interface), SLOT(cancel()));
+//    std::vector<Place*> v_places;
+//    for(int i=0; i<this->placesList.count(); i++)
+//    {
+//        QListWidgetItem* item = this->placesList.item(i);
+//        GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
+//        v_places.push_back(geoItem->getPlace());
+//    }
+//    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), false);
+//    interface->calculate(v_places);
+//    //QObject::disconnect(connection);
+//    //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
+//    this->m_progBarDial->hide();
+//    unlockGUI();
+//}
 
 void MainWindow::selectPlace(Place* p)
 {
