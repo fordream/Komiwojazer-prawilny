@@ -13,11 +13,13 @@ QMAKE_PROJECT_NAME = Komiwojazer
 win32 {
     CONFIG(debug, release|debug):DESTDIR = ../debug/
     CONFIG(release, release|debug):DESTDIR = ../release/
-    INCLUDEPATH += $$quote(C:\Program Files\marble\include) ../KOMI_MAIN_LIB
+    INCLUDEPATH += $$quote(C:\Program Files (x86)\marble\include) ../KOMI_MAIN_LIB
     CONFIG(Debug, Debug|Release) {
-        LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marbleVS\src\lib\marble\Debug\marblewidget-qt5d.lib) $$quote(../debug/KOMI_MAIN_LIB.lib)
+        LIBS += $$quote(C:\Program Files (x86)\marble\libmarblewidget-qt5d.dll) $$quote(../debug/KOMI_MAIN_LIB.dll)
+        #LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marble\build\src\lib\marble\libmarblewidget-qt5.dll.a) $$quote(../debug/libKOMI_MAIN_LIB.a)
     } else {
-        LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marbleVS\src\lib\marble\Release\marblewidget-qt5.lib) $$quote(../release/KOMI_MAIN_LIB.lib)
+        LIBS += $$quote(C:\Program Files (x86)\marble\libmarblewidget-qt5.dll) $$quote(../release/KOMI_MAIN_LIB.dll)
+        #LIBS += $$quote(E:\Michal\Projects\C++\MarbleKomi\marble\buildd\src\lib\marble\libmarblewidget-qt5d.dll.a) $$quote(../release/libKOMI_MAIN_LIB.a)
     }
 } else {
     DESTDIR    = ../
