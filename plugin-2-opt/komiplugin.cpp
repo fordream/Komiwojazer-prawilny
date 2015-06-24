@@ -67,8 +67,99 @@ QString KomiPlugin::getDescription() const
 
 std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 {
-    //michal ppk todo
+    m_bRunAlgorithm = true;
+
+    size_t size = places.size();
+    int* solution = new int[size];
+    int* new_solution = new int[size];
+
+    Marble::Route** routes = new Marble::Route*[size];
+    for(int i = 0; i < size; ++i)
+    {
+        routes[i] =  new Marble::Route[size];
+        for(int j = 0; j < size; ++j)
+        {
+            Coordinates from = places[i]->getCoordinates();
+            Coordinates to = places[j]->getCoordinates();
+            routes[i][j] = map->getRoute(from, to);
+        }
+
+        solution[i] = i;
+    }
+
+    bool go = true;
+
+    while (go)
+    {
+        double best = 0;
+        std::vector<int> best_move = { 0, 0, 0, 0 };
+        bool found = false;
+        int ci;
+        int xi;
+        int yi;
+        int zi;
+
+        for (ci = 0; ci < size; ++ci)
+            for (xi = 0; xi < size; ++xi)
+            {
+                yi = (ci + 1) % size;
+                zi = (xi + 1) % size;
+
+                double cy = routes[ci][yi].distance();
+                double xz = routes[xi][zi].distance();
+                double cx = routes[ci][xi].distance();
+                double yz = routes[yi][zi].distance();
+
+                if (xi != ci && xi != yi)
+                {
+                    double gain = (cy + xz) - (cx + yz);
+                    if (gain > best)
+                    {
+                        best_move = { ci, yi, xi, zi };
+                        best = gain;
+                        found = true;
+                    }
+                }
+            }
+
+        if (found)
+        {
+            ci = best_move[0];
+            yi = best_move[1];
+            xi = best_move[2];
+            zi = best_move[3];
+
+            new_solution[0] = solution[ci];
+            int n = 1;
+            while (xi != yi)
+            {
+                new_solution[n] = solution[xi];
+                n = n + 1;
+                xi = (xi - 1) % size;
+            }
+            new_solution[n] = solution[yi];
+            n = n + 1;
+            while (zi != ci)
+            {
+                new_solution[n] = solution[zi];
+                n = n + 1;
+                zi = (zi + 1) % size;
+            }
+
+            memcpy(solution, new_solution, sizeof(int) * size);
+        }
+        else
+            go = false;
+    }
+
     std::vector<Place*> v_toRet;
+
+    for (unsigned int i = 0; i < size; ++i)
+        v_toRet.push_back(places.at(solution[i]));
+
+    delete[] solution;
+    delete[] new_solution;
+
     return v_toRet;
 }
 

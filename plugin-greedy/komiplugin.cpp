@@ -66,6 +66,8 @@ QString KomiPlugin::getDescription() const
 
 std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 {
+    m_bRunAlgorithm = true;
+
     std::vector<Place*> v_toRet;
     int size = places.size();
     if(size == 0)
@@ -88,7 +90,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 
     qreal min = std::numeric_limits<qreal>::max();
     int index;
-    while(v_usedPlaces.size() != size)
+    while(v_usedPlaces.size() != size && m_bRunAlgorithm)
     {
         for(int i = 0; i < size; ++i)
         {
@@ -105,9 +107,8 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
         }
         v_usedPlaces.push_back(index);
 
+        map->setProgress(v_usedPlaces.size() / size * 100);
         QApplication::processEvents();
-        if(!m_bRunAlgorithm)
-            return v_toRet;
     }
 
     for(int i = 0; i < size; ++i)

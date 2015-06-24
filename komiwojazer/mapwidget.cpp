@@ -2,7 +2,10 @@
 #include <iostream>
 
 MapWidget::MapWidget()
+    : MarbleWidget()
 {
+
+
     //this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     //QObject::connect(this->map, SIGNAL(mouseClickGeoPosition(qreal,qreal,GeoDataCoordinates::Unit)), this, SLOT(putMarker(qreal,qreal,Marble::GeoDataCoordinates::Unit)));
 }
