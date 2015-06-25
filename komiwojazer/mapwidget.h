@@ -50,7 +50,7 @@ public slots:
     void putMarker(qreal lon, qreal lat, MarkerType type=Normal);
     void putMarker(Coordinates marker, MarkerType type=Normal);
     void deleteMarker(Coordinates marker);
-    void routeRetrivedSlot(GeoDataDocument*);
+    void routeRetrivedSlot();
 
 signals:
     void placeSelected(double, double, QString);

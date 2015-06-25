@@ -77,7 +77,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
     for(int i = 0; i < size; ++i)
     {
         routes[i] =  new Marble::Route[size];
-        for(int j = 1; j < size; ++j)
+        for(int j = 0; j < size; ++j)
         {
             Coordinates from = places[i]->getCoordinates();
             Coordinates to = places[j]->getCoordinates();
@@ -106,6 +106,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
             }
         }
         v_usedPlaces.push_back(index);
+        min = std::numeric_limits<qreal>::max();\
 
         map->setProgress(v_usedPlaces.size() / size * 100);
         QApplication::processEvents();

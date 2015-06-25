@@ -147,6 +147,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
             }
 
             memcpy(solution, new_solution, sizeof(int) * size);
+            found = false;
         }
         else
             go = false;

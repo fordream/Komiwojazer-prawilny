@@ -1,10 +1,12 @@
 #include "mapwidget.h"
 #include <iostream>
+#include <marble/GeoDataDocument.h>
 
 MapWidget::MapWidget()
     : MarbleWidget()
 {
-    connect(this->model()->routingManager(), SIGNAL(routeRetrieved(GeoDataDocument*)), this, SLOT(routeRetrivedSlot(GeoDataDocument*)));
+    connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
+
     //this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     //QObject::connect(this->map, SIGNAL(mouseClickGeoPosition(qreal,qreal,GeoDataCoordinates::Unit)), this, SLOT(putMarker(qreal,qreal,Marble::GeoDataCoordinates::Unit)));
 }
@@ -58,6 +60,11 @@ void MapWidget::drawRoute(Route route)
 
 Route MapWidget::findRoute(Coordinates from, Coordinates to)
 {
+    if(from.getLat()==to.getLat() && from.getLon() == to.getLon())
+    {
+        Route r;
+        return r;
+    }
     // Access the shared route request (start, destination and parameters)
     std::cout<<"from"<<from.getLon()<<"  "<<from.getLat()<<std::endl;
     std::cout<<"to"<<to.getLon()<<"  "<<to.getLat()<<std::endl;
@@ -68,12 +75,13 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
     request->setRoutingProfile( manager->defaultProfile( RoutingProfile::Motorcar ) );
 
     // Set start and destination
-    request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
-    request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
-    //request->append( GeoDataCoordinates( 8.38942, 48.99738, 0.0, GeoDataCoordinates::Degree ) );
-    //request->append( GeoDataCoordinates( 8.42002, 49.0058, 0.0, GeoDataCoordinates::Degree ) );
-    manager->retrieveRoute();
+    //request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
+    //request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
+    request->append( GeoDataCoordinates( 8.38942, 48.99738, 0.0, GeoDataCoordinates::Degree ) );
+    request->append( GeoDataCoordinates( 8.42002, 49.0058, 0.0, GeoDataCoordinates::Degree ) );
 
+    manager->retrieveRoute();
+    //michal ppk
     QEventLoop loop;
     connect(this, SIGNAL(routeFoundSignal()), &loop, SLOT(quit()));
     loop.exec(); //blocks untill either theSignalToWaitFor or timeout was fired
@@ -126,10 +134,10 @@ void MapWidget::center(Coordinates c)
     this->centerOn(GeoDataCoordinates(c.getLon(), c.getLat(), 0, GeoDataCoordinates::Radian));
 }
 
-void MapWidget::routeRetrivedSlot(GeoDataDocument* doc)
+void MapWidget::routeRetrivedSlot()
 {
     //Route route = this->map.model()->routingManager()->routingModel()->route();
-    this->map.model()->routingManager()->routingModel()->setCurrentRoute(doc);
+    //this->map.model()->routingManager()->routingModel()->setCurrentRoute(doc);//michal ppk dupa
     route = this->map.model()->routingManager()->routingModel()->route();
     emit routeFoundSignal();
 }
