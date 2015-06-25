@@ -104,13 +104,14 @@ void MainWindow::deletePlace(QListWidgetItem* item)
 
 void MainWindow::calculate(int pluginNum)
 {
+
 //    Route a=this->map.findRoute(Coordinates(8.38942, 48.99738), Coordinates(8.42002, 49.0058));
 //    Route b=this->map.findRoute(Coordinates(6.38942, 48.99738), Coordinates(6.38942, 47.99738));
 //    std::vector<Route> v;
 //    v.push_back(a);
 //    v.push_back(b);
 //    map.drawRoute(v);
-    /lockGUI();
+    lockGUI();
     this->m_progBarDial->show();
     KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(pluginNum);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);

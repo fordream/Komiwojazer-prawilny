@@ -6,8 +6,6 @@ MapWidget::MapWidget()
     : MarbleWidget()
 {
     connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
-    //this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
-    //QObject::connect(this->map, SIGNAL(mouseClickGeoPosition(qreal,qreal,GeoDataCoordinates::Unit)), this, SLOT(putMarker(qreal,qreal,Marble::GeoDataCoordinates::Unit)));
 }
 
 QVector<Place*> MapWidget::findPlaceByName(QString name)
@@ -76,8 +74,8 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
 {
     route = Route();
     // Access the shared route request (start, destination and parameters)
-    std::cout<<"from"<<from.getLon()<<"  "<<from.getLat()<<std::endl;
-    std::cout<<"to"<<to.getLon()<<"  "<<to.getLat()<<std::endl;
+    //std::cout<<"from"<<from.getLon()<<"  "<<from.getLat()<<std::endl;
+    //std::cout<<"to"<<to.getLon()<<"  "<<to.getLat()<<std::endl;
     RoutingManager* manager = this->model()->routingManager();
     RouteRequest* request = manager->routeRequest();
     //request->clear();
@@ -98,7 +96,6 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
     watchdog.start( 30000 );
     manager->retrieveRoute();
     localEventLoop.exec();
-
     return route;
 }
 
@@ -148,8 +145,5 @@ void MapWidget::center(Coordinates c)
 
 void MapWidget::routeRetrivedSlot()
 {
-    //Route route = this->map.model()->routingManager()->routingModel()->route();
-    //this->map.model()->routingManager()->routingModel()->setCurrentRoute(doc);//michal ppk dupa
     route = this->model()->routingManager()->routingModel()->route();
-    //emit routeFoundSignal();
 }

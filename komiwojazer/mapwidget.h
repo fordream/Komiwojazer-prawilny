@@ -41,7 +41,7 @@ public:
 
 private:
     Marble::MarbleModel marbleModel;
-    MarbleMap map;
+    //MarbleMap map;
     virtual void customPaint(Marble::GeoPainter* painter);
     std::map<Coordinates, MarkerType> markers;
     QImage getMarkerIcon(MarkerType type);
