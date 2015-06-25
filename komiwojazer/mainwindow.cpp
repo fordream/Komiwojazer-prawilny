@@ -105,10 +105,6 @@ void MainWindow::deletePlace(QListWidgetItem* item)
 
 void MainWindow::calculate(int pluginNum)
 {
-<<<<<<< HEAD
-=======
-
->>>>>>> 9acb729e4b14c7a4d632787d81cf10ff0fb7753c
     lockGUI();
     this->m_progBarDial->show();
     KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(pluginNum);

@@ -6,10 +6,7 @@ MapWidget::MapWidget()
     : MarbleWidget()
 {
     connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
-<<<<<<< HEAD
 
-=======
->>>>>>> 9acb729e4b14c7a4d632787d81cf10ff0fb7753c
     //this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     //QObject::connect(this->map, SIGNAL(mouseClickGeoPosition(qreal,qreal,GeoDataCoordinates::Unit)), this, SLOT(putMarker(qreal,qreal,Marble::GeoDataCoordinates::Unit)));
 }
