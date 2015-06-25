@@ -26,7 +26,7 @@ win32 {
     DEPENDPATH += ../KOMI_MAIN_LIB
     INCLUDEPATH += ../KOMI_MAIN_LIB
     LIBS += -L/usr/local/lib \
-        -lmarblewidget \
+        -lmarblewidget-qt5 \
         -L../ -lKOMI_MAIN_LIB
 }
 

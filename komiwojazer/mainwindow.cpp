@@ -41,7 +41,7 @@ void MainWindow::prepareGUI()
     this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     connect(&this->map, SIGNAL(placeSelected(double,double,QString)), this, SLOT(placeSelected(double,double,QString)));
     connect(&this->browser, SIGNAL(search_button_clicked(QString)), this, SLOT(searchButton_clicked(QString)));
-    connect(&this->browser, SIGNAL(add_button_clicked(QListWidgetItem*)), this, SLOT(addPlace(QListWidgetItem*)));
+    connect(&this->browser, SIGNAL(add_button_clicked()), this, SLOT(addPlace()));
     connect(&this->browser, SIGNAL(suggestion_clicked(QListWidgetItem*)), this, SLOT(suggestion_clicked(QListWidgetItem*)));
     connect(&this->list, SIGNAL(btn_delete_click(QListWidgetItem*)), this, SLOT(deletePlace(QListWidgetItem*)));
     connect(&this->list, SIGNAL(btn_calculate_click(int)), this, SLOT(calculate(int)));
@@ -59,8 +59,7 @@ this->selectPlace(geoItem->getPlace());
 void MainWindow::placeSelected(double lon, double lat, QString description)
 {
     Place* place=new Place(Coordinates(lon, lat), description);
-    GeoListItem* item = new GeoListItem(place);
-    browser.setItem(item);
+    browser.setText(description);
     this->selectPlace(place);
 }
 
@@ -78,7 +77,7 @@ void MainWindow::searchButton_clicked(QString text)
     browser.showList(items);
 }
 
-void MainWindow::addPlace(QListWidgetItem* item)
+void MainWindow::addPlace()
 {
     std::cout<<"add place  "<<std::endl;
     //GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
@@ -105,11 +104,13 @@ void MainWindow::deletePlace(QListWidgetItem* item)
 
 void MainWindow::calculate(int pluginNum)
 {
-<<<<<<< HEAD
-=======
-
->>>>>>> 9acb729e4b14c7a4d632787d81cf10ff0fb7753c
-    lockGUI();
+//    Route a=this->map.findRoute(Coordinates(8.38942, 48.99738), Coordinates(8.42002, 49.0058));
+//    Route b=this->map.findRoute(Coordinates(6.38942, 48.99738), Coordinates(6.38942, 47.99738));
+//    std::vector<Route> v;
+//    v.push_back(a);
+//    v.push_back(b);
+//    map.drawRoute(v);
+    /lockGUI();
     this->m_progBarDial->show();
     KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(pluginNum);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
@@ -121,14 +122,6 @@ void MainWindow::calculate(int pluginNum)
         GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
         v_places.push_back(geoItem->getPlace());
     }
-
-    //michal ppk
-    v_places.clear();
-    Place test1(Coordinates(8.38942, 48.99738), "Test1");
-    Place test2(Coordinates(8.42002, 49.0058), "Test1");
-    v_places.push_back(&test1);
-    v_places.push_back(&test2);
-    //michal ppk
     interface->calculate(v_places);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
     this->m_progBarDial->hide();

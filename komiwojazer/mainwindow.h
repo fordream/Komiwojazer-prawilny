@@ -59,7 +59,7 @@ public:
 public slots:
     virtual void setProgress(int value);
     void placeSelected(double, double, QString);
-    void addPlace(QListWidgetItem *);
+    void addPlace();
     void deletePlace(QListWidgetItem *);
     void calculate(int pluginNum);
     void place_clicked(QListWidgetItem*);

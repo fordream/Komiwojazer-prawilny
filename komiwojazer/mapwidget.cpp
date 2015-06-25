@@ -6,10 +6,6 @@ MapWidget::MapWidget()
     : MarbleWidget()
 {
     connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
-<<<<<<< HEAD
-
-=======
->>>>>>> 9acb729e4b14c7a4d632787d81cf10ff0fb7753c
     //this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     //QObject::connect(this->map, SIGNAL(mouseClickGeoPosition(qreal,qreal,GeoDataCoordinates::Unit)), this, SLOT(putMarker(qreal,qreal,Marble::GeoDataCoordinates::Unit)));
 }
@@ -54,20 +50,31 @@ void MapWidget::deleteMarker(Coordinates marker)
     this->update();
 }
 
+void MapWidget::drawRoute(std::vector<Route> routes)
+{
+    if(routes.size()>0)
+    {
+        Route route = routes.at(0);
+    }
+    for(auto it = routes.begin() + 1; it!=routes.end(); ++it)
+    {
+        for(int i=0; i<it->size(); i++)
+        {
+            route.addRouteSegment(it->at(i));
+        }
+    }
+    drawRoute(route);
+}
+
 void MapWidget::drawRoute(Route route)
 {
-    //TO DO convert route to geodocument
-    //this->map.model()->routingManager()->routingModel()->setCurrentRoute(doc);
+    this->model()->routingManager()->routingModel()->setRoute(route);
     this->show();
 }
 
 Route MapWidget::findRoute(Coordinates from, Coordinates to)
 {
-    if(from.getLat()==to.getLat() && from.getLon() == to.getLon())
-    {
-        Route r;
-        return r;
-    }
+    route = Route();
     // Access the shared route request (start, destination and parameters)
     std::cout<<"from"<<from.getLon()<<"  "<<from.getLat()<<std::endl;
     std::cout<<"to"<<to.getLon()<<"  "<<to.getLat()<<std::endl;
@@ -78,18 +85,20 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
     request->setRoutingProfile( manager->defaultProfile( RoutingProfile::Motorcar ) );
 
     // Set start and destination
-    //request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
-    //request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
-    request->append( GeoDataCoordinates( 8.38942, 48.99738, 0.0, GeoDataCoordinates::Degree ) );
-    request->append( GeoDataCoordinates( 8.42002, 49.0058, 0.0, GeoDataCoordinates::Degree ) );
+    request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
+    request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
+    //request->append( GeoDataCoordinates( 8.38942, 48.99738, 0.0, GeoDataCoordinates::Degree ) );
+    //request->append( GeoDataCoordinates( 8.42002, 49.0058, 0.0, GeoDataCoordinates::Degree ) );
 
+    QEventLoop localEventLoop;
+    QTimer watchdog;
+    watchdog.setSingleShot(true);
+    connect( &watchdog, SIGNAL(timeout()), &localEventLoop, SLOT(quit()));
+    connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
+    watchdog.start( 30000 );
     manager->retrieveRoute();
-    //michal ppk
-    QEventLoop loop;
-    connect(this, SIGNAL(routeFoundSignal()), &loop, SLOT(quit()));
-    loop.exec(); //blocks untill either theSignalToWaitFor or timeout was fired
-    disconnect(this, SIGNAL(routeFoundSignal()), &loop, SLOT(quit()));
-    std::cout<<"distance: "<<route.distance()<<std::endl;
+    localEventLoop.exec();
+
     return route;
 }
 
@@ -141,6 +150,6 @@ void MapWidget::routeRetrivedSlot()
 {
     //Route route = this->map.model()->routingManager()->routingModel()->route();
     //this->map.model()->routingManager()->routingModel()->setCurrentRoute(doc);//michal ppk dupa
-    route = this->map.model()->routingManager()->routingModel()->route();
-    emit routeFoundSignal();
+    route = this->model()->routingManager()->routingModel()->route();
+    //emit routeFoundSignal();
 }

@@ -18,6 +18,7 @@
 #include <marble/MarbleMap.h>
 #include <marble/GeoDataCoordinates.h>
 #include <QEventLoop>
+#include <QTimer>
 
 using namespace Marble;
 
@@ -30,6 +31,7 @@ public:
     QVector<Place*> findPlaceByName(QString name);
     QString findPlaceByCoordinates(double lon, double lat);
     void drawRoute(Route route);
+    void drawRoute(std::vector<Route> routes);
     Route findRoute(Coordinates from, Coordinates to);
     void mouseDoubleClickEvent ( QMouseEvent * event );
     void setFocusedMarker(double lon, double lat);

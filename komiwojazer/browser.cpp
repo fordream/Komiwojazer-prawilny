@@ -8,7 +8,6 @@ Browser::Browser(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->button_add->setEnabled(false);
-    selectedItem = nullptr;
     connect(&list, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(setSelectedItem(QListWidgetItem*)));
 }
 
@@ -19,11 +18,7 @@ Browser::~Browser()
 
 void Browser::on_button_add_clicked()
 {
-    if(selectedItem!=nullptr)
-    {
-        emit add_button_clicked(selectedItem);
-    }
-    selectedItem = nullptr;
+    emit add_button_clicked();
 }
 
 void Browser::on_button_search_clicked()
@@ -71,13 +66,12 @@ void Browser::unlock()
 
 void Browser::setSelectedItem(QListWidgetItem* item)
 {
-    setItem(item);
+    setText(item->text());
     list.hide();
     emit suggestion_clicked(item);
 }
 
-void Browser::setItem(QListWidgetItem* item)
+void Browser::setText(QString text)
 {
-    ui->input->setText(item->text());
-    selectedItem = item;
+    ui->input->setText(text);
 }
