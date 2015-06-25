@@ -16,6 +16,7 @@ public:
     ~ProgressBarDialog();
 
     void setProgress(int prog);
+    void closeEvent(QCloseEvent *event);
 signals:
     void cancelButtonClicked();
 private:

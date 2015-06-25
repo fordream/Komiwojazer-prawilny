@@ -4,7 +4,7 @@
 MapWidget::MapWidget()
     : MarbleWidget()
 {
-    connect(this->model()->routingManager(), SIGNAL(routeRetrieved(GeoDataDocument*)), this, SLOT(routeRetrivedSlot(GeoDataDocument*)));
+    connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
     //this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     //QObject::connect(this->map, SIGNAL(mouseClickGeoPosition(qreal,qreal,GeoDataCoordinates::Unit)), this, SLOT(putMarker(qreal,qreal,Marble::GeoDataCoordinates::Unit)));
 }
@@ -126,7 +126,7 @@ void MapWidget::center(Coordinates c)
     this->centerOn(GeoDataCoordinates(c.getLon(), c.getLat(), 0, GeoDataCoordinates::Radian));
 }
 
-void MapWidget::routeRetrivedSlot(GeoDataDocument* doc)
+void MapWidget::routeRetrivedSlot()
 {
     //Route route = this->map.model()->routingManager()->routingModel()->route();
     this->map.model()->routingManager()->routingModel()->setCurrentRoute(doc);

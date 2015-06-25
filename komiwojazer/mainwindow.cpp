@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "iostream"
+#include <place.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -104,13 +105,11 @@ void MainWindow::deletePlace(QListWidgetItem* item)
 
 void MainWindow::calculate(int pluginNum)
 {
-    this->map.findRoute(Coordinates(0, 0), Coordinates(0,0));
+
     lockGUI();
     this->m_progBarDial->show();
-    KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(list.getComboBoxItemNum());
-    QMetaObject::Connection connectionProgresBar = QObject::connect(dynamic_cast<QObject*>(interface), SIGNAL(setProgress(int)), this, SLOT(setProgress(int)));
-    QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
-                    dynamic_cast<QObject*>(interface), SLOT(cancel()));
+    KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(pluginNum);
+    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
     std::vector<Place*> v_places;
     std::vector<QListWidgetItem*> items = list.getAllItems();
     for(int i=0; i<items.size(); i++)
@@ -119,35 +118,19 @@ void MainWindow::calculate(int pluginNum)
         GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
         v_places.push_back(geoItem->getPlace());
     }
+
+    //michal ppk
+    v_places.clear();
+    Place test1(Coordinates(8.38942, 48.99738), "Test1");
+    Place test2(Coordinates(8.42002, 49.0058), "Test1");
+    v_places.push_back(&test1);
+    v_places.push_back(&test2);
+    //michal ppk
     interface->calculate(v_places);
-    QObject::disconnect(connection);
-    QObject::disconnect(connectionProgresBar);
+    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
     this->m_progBarDial->hide();
     unlockGUI();
 }
-
-//void MainWindow::calculate()
-//{
-//    lockGUI();
-//    this->m_progBarDial->show();
-//    KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(methodsBox.currentIndex());
-//    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
-//    //QMetaObject::Connection connection = QObject::connect(m_progBarDial, SIGNAL(cancelButtonClicked()),
-//    //                qobject_cast<QObject*>(interface), SLOT(cancel()));
-//    std::vector<Place*> v_places;
-//    for(int i=0; i<this->placesList.count(); i++)
-//    {
-//        QListWidgetItem* item = this->placesList.item(i);
-//        GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
-//        v_places.push_back(geoItem->getPlace());
-//    }
-//    interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), false);
-//    interface->calculate(v_places);
-//    //QObject::disconnect(connection);
-//    //pobierz plugin, podepnij sygnaly i sloty (cancel i set progress)
-//    this->m_progBarDial->hide();
-//    unlockGUI();
-//}
 
 void MainWindow::selectPlace(Place* p)
 {

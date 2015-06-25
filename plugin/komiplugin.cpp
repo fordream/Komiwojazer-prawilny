@@ -67,6 +67,7 @@ QString KomiPlugin::getDescription() const
 std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 {
     std::vector<Place*> v_toRet = places;
+    m_bRunAlgorithm = true;
 
     std::vector<int> test;
     for(int i = 0; i < 100000; ++i)
