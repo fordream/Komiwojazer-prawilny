@@ -112,7 +112,26 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 
                 if (xi != ci && xi != yi)
                 {
-                    double gain = (cy + xz) - (cx + yz);
+                    double oldDistance = cy + xz;
+                    int yi_iter = yi;
+                    int xi_iter = xi;
+                    while(xi_iter != yi_iter)
+                    {
+                        oldDistance += routes[yi_iter][(yi_iter - 1)%size].distance();
+                        yi_iter = (yi_iter + 1) % size;
+                    }
+
+
+                    double newDistance = cx + yz;
+                    yi_iter = yi;
+                    xi_iter = xi;
+                    while(xi_iter != yi_iter)
+                    {
+                        newDistance += routes[xi_iter][(xi_iter - 1)%size].distance();
+                        xi_iter = (xi_iter - 1) % size;
+                    }
+
+                    double gain = oldDistance - newDistance;
                     if (gain > best)
                     {
                         best_move = { ci, yi, xi, zi };
