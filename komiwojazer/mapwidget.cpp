@@ -78,7 +78,7 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
     connect(this, SIGNAL(routeFoundSignal()), &loop, SLOT(quit()));
     loop.exec(); //blocks untill either theSignalToWaitFor or timeout was fired
     disconnect(this, SIGNAL(routeFoundSignal()), &loop, SLOT(quit()));
-
+    std::cout<<"distance: "<<route.distance()<<std::endl;
     return route;
 }
 

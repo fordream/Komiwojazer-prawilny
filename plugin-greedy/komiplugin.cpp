@@ -77,7 +77,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
     for(int i = 0; i < size; ++i)
     {
         routes[i] =  new Marble::Route[size];
-        for(int j = 0; j < size; ++j)
+        for(int j = 1; j < size; ++j)
         {
             Coordinates from = places[i]->getCoordinates();
             Coordinates to = places[j]->getCoordinates();

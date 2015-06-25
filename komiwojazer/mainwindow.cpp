@@ -148,7 +148,6 @@ void MainWindow::deletePlace(QListWidgetItem* item)
 
 void MainWindow::calculate(int pluginNum)
 {
-    this->map.findRoute(Coordinates(0, 0), Coordinates(0,0));
     lockGUI();
     this->m_progBarDial->show();
     KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(list.getComboBoxItemNum());
