@@ -164,6 +164,11 @@ void MainWindow::drawRoute(Marble::Route route)
     this->map.drawRoute(route);
 }
 
+void MainWindow::drawRoute(std::vector<Route> routes)
+{
+    this->map.drawRoute(routes);
+}
+
 void MainWindow::writeLog(QString text)
 {
     this->textEditLog.append(text);

@@ -40,6 +40,12 @@ public:
      */
     virtual void drawRoute(Marble::Route route) = 0;
     /**
+     * @brief drawRoute
+     * Rysuje drogę, która jest sumą dróg przekazanych w wektorze.
+     * @param routes wektor dróg
+     */
+    virtual void drawRoute(std::vector<Marble::Route> routes) = 0;
+    /**
      * @brief writeLog
      * Przekazuje informacje w formie wiadomości tekstowych.
      * @param text wiadomość

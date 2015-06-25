@@ -53,6 +53,7 @@ private:
 
 public:
     virtual Route getRoute(Coordinates from, Coordinates to);
+    virtual void drawRoute(std::vector<Route> routes);
     virtual void drawRoute(Marble::Route route);
     virtual void writeLog(QString text);
 
