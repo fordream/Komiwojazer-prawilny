@@ -21,6 +21,7 @@
 #include <QGridLayout>
 #include <listwithbuttons.h>
 #include<browser.h>
+#include <QTextBrowser>
 
 namespace Ui {
 class MainWindow;
@@ -37,7 +38,7 @@ public:
 private:
     Ui::MainWindow *ui;
     MapWidget map;
-    QTextEdit textEditLog;
+    QTextBrowser textEditLog;
     QGridLayout controlsLayout;
     ListWithButtons list;
     Browser browser;

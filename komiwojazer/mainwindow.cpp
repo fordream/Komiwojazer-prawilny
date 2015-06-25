@@ -17,45 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
         this->list.addItemToBox(e.second, QVariant(e.first));
         pluginManager.getPluginByIndex(e.first)->setMap(this);
     }
-
-    /*michal ppk settings and testing*
-    RoutingManager *const routingManager = map.model()->routingManager();
-    routingManager->readSettings();
-    //bool const startupWarning = settings.value( "showGuidanceModeStartupWarning", QVariant( true ) ).toBool();
-    //routingManager->setShowGuidanceModeStartupWarning( startupWarning );
-
-    QColor tempColor;
-    tempColor = QColor(Oxygen::skyBlue4.name());
-    tempColor.setAlpha(200);
-    routingManager->setRouteColorStandard( tempColor );
-
-    tempColor = QColor(Oxygen::skyBlue1.name());
-    tempColor.setAlpha(200);
-    routingManager->setRouteColorHighlighted( tempColor );
-
-    tempColor = QColor(Oxygen::aluminumGray4.name());
-    tempColor.setAlpha(200);
-    routingManager->setRouteColorAlternative( tempColor );
-
-    // Access the shared route request (start, destination and parameters)
-    RoutingManager* manager = map.model()->routingManager();
-    RouteRequest* request = manager->routeRequest();
-
-    // Use default routing settings for cars
-    request->setRoutingProfile( manager->defaultProfile( RoutingProfile::Motorcar ) );
-
-    // Set start and destination
-    request->append( GeoDataCoordinates( 8.38942, 48.99738, 0.0, GeoDataCoordinates::Degree ) );
-    request->append( GeoDataCoordinates( 8.42002, 49.0058, 0.0, GeoDataCoordinates::Degree ) );
-
-    // Calculate the route
-    manager->retrieveRoute();
-
-    // Center the map on the route start point and show it
-    map.centerOn( request->at( 0 ) );
-    map.setDistance( 0.75 );
-    map.show();
-    /*michal ppk*/
 }
 
 MainWindow::~MainWindow()
@@ -69,17 +30,12 @@ void MainWindow::prepareGUI()
 
     this->ui->mapLayout->addWidget(&this->map, 0, 0);
     this->map.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    this->ui->mapLayout->addWidget(&this->textEditLog, 1, 0);
-    this->ui->mapLayout->setRowMinimumHeight(0, 500);
-    this->ui->mapLayout->setRowMinimumHeight(1, 100);
-    this->ui->mapLayout->setRowStretch(0, 1);
-    this->ui->mapLayout->setRowStretch(1, 0);
-    this->textEditLog.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    this->textEditLog.append("Application log\nApplication started\n");
+    this->textEditLog.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    this->controlsLayout.setSpacing(5);
-    this->controlsLayout.addWidget(&this->browser, 0, 1);
-    this->controlsLayout.addWidget(&this->list, 1, 0);
-    this->ui->mapLayout->addLayout(&this->controlsLayout, 0, 0);
+    this->ui->controlsLayout->addWidget(&this->browser, 0, 0);
+    this->ui->controlsLayout->addWidget(&this->list, 1, 0);
+    this->ui->controlsLayout->addWidget(&this->textEditLog, 2, 0);
 
     this->map.setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     connect(&this->map, SIGNAL(placeSelected(double,double,QString)), this, SLOT(placeSelected(double,double,QString)));

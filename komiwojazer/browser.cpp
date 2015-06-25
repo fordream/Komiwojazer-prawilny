@@ -7,7 +7,7 @@ Browser::Browser(QWidget *parent) :
     ui(new Ui::Browser)
 {
     ui->setupUi(this);
-    ui->button_add->hide();
+    ui->button_add->setEnabled(false);
     selectedItem = nullptr;
     connect(&list, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(setSelectedItem(QListWidgetItem*)));
 }
@@ -33,12 +33,12 @@ void Browser::on_button_search_clicked()
 
 void Browser::on_input_textEdited(const QString &arg1)
 {
-    ui->button_add->hide();
+    ui->button_add->setEnabled(false);
 }
 
 void Browser::showAddButton()
 {
-    ui->button_add->show();
+    ui->button_add->setEnabled(true);
 }
 
 void Browser::showList(std::vector<QListWidgetItem*> items)
