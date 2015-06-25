@@ -118,13 +118,13 @@ void MainWindow::calculate(int pluginNum)
         v_places.push_back(geoItem->getPlace());
     }
 
-    //michal ppk
+    /*michal ppl*
     v_places.clear();
     Place test1(Coordinates(8.38942, 48.99738), "Test1");
     Place test2(Coordinates(8.42002, 49.0058), "Test1");
     v_places.push_back(&test1);
     v_places.push_back(&test2);
-    //michal ppk
+    /**/
     interface->calculate(v_places);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
     this->m_progBarDial->hide();

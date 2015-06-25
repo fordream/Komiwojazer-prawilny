@@ -138,6 +138,6 @@ void MapWidget::routeRetrivedSlot()
 {
     //Route route = this->map.model()->routingManager()->routingModel()->route();
     //this->map.model()->routingManager()->routingModel()->setCurrentRoute(doc);//michal ppk dupa
-    route = this->map.model()->routingManager()->routingModel()->route();
+    route = this->model()->routingManager()->routingModel()->route();
     emit routeFoundSignal();
 }

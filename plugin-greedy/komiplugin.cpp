@@ -81,7 +81,8 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
         {
             Coordinates from = places[i]->getCoordinates();
             Coordinates to = places[j]->getCoordinates();
-            routes[i][j] = map->getRoute(from, to);
+            Marble::Route route = map->getRoute(from, to);
+            routes[i][j] = route;
         }
     }
 
