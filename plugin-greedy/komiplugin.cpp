@@ -67,7 +67,7 @@ QString KomiPlugin::getDescription() const
 std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 {
     m_bRunAlgorithm = true;
-
+    std::vector<int> v_usedPlaces;
     std::vector<Place*> v_toRet;
     int size = places.size();
     if(size == 0)
@@ -83,10 +83,10 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
             Coordinates to = places[j]->getCoordinates();
             Marble::Route route = map->getRoute(from, to);
             routes[i][j] = route;
+            map->writeLog(QString("Found route for %1 and %2").arg(i).arg(j));
         }
     }
 
-    std::vector<int> v_usedPlaces;
     v_usedPlaces.push_back(0);
 
     qreal min = std::numeric_limits<qreal>::max();
@@ -113,6 +113,16 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
         QApplication::processEvents();
     }
 
+    if(v_usedPlaces.size() > 1)
+    {
+        std::vector<Marble::Route> toDraw;
+        for(int i = 0; i < v_usedPlaces.size()-1; ++i)
+        {
+            toDraw.push_back(routes[v_usedPlaces.at(i)][v_usedPlaces.at(i+1)]);
+        }
+        this->map->drawRoute(toDraw);
+    }
+
     for(int i = 0; i < size; ++i)
     {
         delete[] routes[i];
@@ -121,6 +131,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 
     for(auto it = v_usedPlaces.begin(); it != v_usedPlaces.end(); ++it)
         v_toRet.push_back(places.at(*it));
+
 
     return v_toRet;
 }

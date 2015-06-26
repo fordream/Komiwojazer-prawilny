@@ -68,7 +68,7 @@ QString KomiPlugin::getDescription() const
 std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 {
     m_bRunAlgorithm = true;
-
+    map->setProgress(0);
     size_t size = places.size();
     int* solution = new int[size];
     int* new_solution = new int[size];
@@ -79,9 +79,17 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
         routes[i] =  new Marble::Route[size];
         for(int j = 0; j < size; ++j)
         {
-            Coordinates from = places[i]->getCoordinates();
-            Coordinates to = places[j]->getCoordinates();
-            routes[i][j] = map->getRoute(from, to);
+            if(i == j)
+            {
+                 routes[i][j] = Marble::Route();
+            }
+            else
+            {
+                Coordinates from = places[i]->getCoordinates();
+                Coordinates to = places[j]->getCoordinates();
+                routes[i][j] = map->getRoute(from, to);
+            }
+            map->writeLog(QString("Found route for %1 and %2").arg(i).arg(j));
         }
 
         solution[i] = i;
@@ -176,6 +184,16 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
 
     for (unsigned int i = 0; i < size; ++i)
         v_toRet.push_back(places.at(solution[i]));
+
+    if(size > 1)
+    {
+        std::vector<Marble::Route> toDraw;
+        for(int i = 0; i < size-1; ++i)
+        {
+            toDraw.push_back(routes[solution[i]][solution[i+1]]);
+        }
+        this->map->drawRoute(toDraw);
+    }
 
     delete[] solution;
     delete[] new_solution;

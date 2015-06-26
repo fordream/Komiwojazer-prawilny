@@ -50,23 +50,26 @@ void MapWidget::deleteMarker(Coordinates marker)
 
 void MapWidget::drawRoute(std::vector<Route> routes)
 {
+    Route r;
     if(routes.size()>0)
     {
-        Route route = routes.at(0);
+        r = routes.at(0);
     }
     for(auto it = routes.begin() + 1; it!=routes.end(); ++it)
     {
         for(int i=0; i<it->size(); i++)
         {
-            route.addRouteSegment(it->at(i));
+            r.addRouteSegment(it->at(i));
         }
     }
-    drawRoute(route);
+    drawRoute(r);
 }
 
-void MapWidget::drawRoute(Route route)
+void MapWidget::drawRoute(Route r)
 {
-    this->model()->routingManager()->routingModel()->setRoute(route);
+    //this->routingLayer()->
+    this->model()->routingManager()->routingModel()->clear();
+    this->model()->routingManager()->routingModel()->setRoute(r);
     this->show();
 }
 
@@ -78,7 +81,7 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
     //std::cout<<"to"<<to.getLon()<<"  "<<to.getLat()<<std::endl;
     RoutingManager* manager = this->model()->routingManager();
     RouteRequest* request = manager->routeRequest();
-    //request->clear();
+    request->clear();
     // Use default routing settings for cars
     request->setRoutingProfile( manager->defaultProfile( RoutingProfile::Motorcar ) );
 
