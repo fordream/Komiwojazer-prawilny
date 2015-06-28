@@ -75,29 +75,26 @@ void MapWidget::drawRoute(Route r)
 Route MapWidget::findRoute(Coordinates from, Coordinates to)
 {
     route = Route();
-    // Access the shared route request (start, destination and parameters)
-    //std::cout<<"from"<<from.getLon()<<"  "<<from.getLat()<<std::endl;
-    //std::cout<<"to"<<to.getLon()<<"  "<<to.getLat()<<std::endl;
-    RoutingManager* manager = this->model()->routingManager();
-    RouteRequest* request = manager->routeRequest();
-    request->clear();
-    // Use default routing settings for cars
-    request->setRoutingProfile( manager->defaultProfile( RoutingProfile::Motorcar ) );
+    if(from.getLat() != to.getLat() || from.getLon() != to.getLon())
+    {
+        RoutingManager* manager = this->model()->routingManager();
+        RouteRequest* request = manager->routeRequest();
+        request->clear();
+        // Use default routing settings for cars
+        request->setRoutingProfile( manager->defaultProfile( RoutingProfile::Motorcar ) );
 
-    // Set start and destination
-    request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
-    request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
-    //request->append( GeoDataCoordinates( 8.38942, 48.99738, 0.0, GeoDataCoordinates::Degree ) );
-    //request->append( GeoDataCoordinates( 8.42002, 49.0058, 0.0, GeoDataCoordinates::Degree ) );
-
-    QEventLoop localEventLoop;
-    QTimer watchdog;
-    watchdog.setSingleShot(true);
-    connect( &watchdog, SIGNAL(timeout()), &localEventLoop, SLOT(quit()));
-    connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
-    watchdog.start( 30000 );
-    manager->retrieveRoute();
-    localEventLoop.exec();
+        // Set start and destination
+        request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
+        request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
+        QEventLoop localEventLoop;
+        QTimer watchdog;
+        watchdog.setSingleShot(true);
+        connect( &watchdog, SIGNAL(timeout()), &localEventLoop, SLOT(quit()));
+        connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
+        watchdog.start( 30000 );
+        manager->retrieveRoute();
+        localEventLoop.exec();
+    }
     return route;
 }
 

@@ -63,7 +63,10 @@ public:
     virtual void setMap(AppInterface * _map) {map =_map;}
     //! Destruktor
     virtual ~KomiwojazerPluginInterface() {}
-    //! Returns (short) name (for menu entry, etc.)
+    /**
+     * @brief getName
+     * @return
+     */
     virtual QString getName() const = 0;
     //! Returns long name/description (for tooltip, etc.)
     virtual QString getDescription() const = 0;

@@ -102,6 +102,7 @@ void MainWindow::deletePlace(QListWidgetItem* item)
     GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
     this->map.deleteMarker(geoItem->getPlace()->getCoordinates());
     delete geoItem;
+    placesListChanged = true;
 }
 
 void MainWindow::calculate(int pluginNum)
@@ -112,7 +113,20 @@ void MainWindow::calculate(int pluginNum)
         //std::vector<Place*> v_places;
         std::vector<QListWidgetItem*> items = list.getAllItems();
         int size = items.size();
-        for(int i=0; i<items.size(); i++)
+        if(size==0)
+        {
+            return;
+        }
+        if(v_places.size()>0)
+        {
+            for(int i = 0; i < v_places.size(); ++i)
+            {
+                delete[] routes[i];
+            }
+            delete[] routes;
+        }
+        v_places.clear();
+        for(int i=0; i<size; i++)
         {
             QListWidgetItem* item = items.at(i);
             GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
