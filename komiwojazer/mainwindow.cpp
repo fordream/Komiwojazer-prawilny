@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
         this->list.addItemToBox(e.second, QVariant(e.first));
         pluginManager.getPluginByIndex(e.first)->setMap(this);
     }
+    placesListChanged = false;
 }
 
 MainWindow::~MainWindow()
@@ -91,6 +92,7 @@ void MainWindow::addPlace()
         //std::cout<<place->getCoordinates().getLat()<<"  "<<place->getCoordinates().getLon()<<std::endl;
         this->map.putMarker(selectedPlace->getCoordinates());
         this->selectedPlace=nullptr;
+        placesListChanged = true;
     }
 }
 
@@ -104,26 +106,38 @@ void MainWindow::deletePlace(QListWidgetItem* item)
 
 void MainWindow::calculate(int pluginNum)
 {
-
-//    Route a=this->map.findRoute(Coordinates(8.38942, 48.99738), Coordinates(8.42002, 49.0058));
-//    Route b=this->map.findRoute(Coordinates(6.38942, 48.99738), Coordinates(6.38942, 47.99738));
-//    std::vector<Route> v;
-//    v.push_back(a);
-//    v.push_back(b);
-//    map.drawRoute(v);
     lockGUI();
+    if (placesListChanged)
+    {
+        //std::vector<Place*> v_places;
+        std::vector<QListWidgetItem*> items = list.getAllItems();
+        int size = items.size();
+        for(int i=0; i<items.size(); i++)
+        {
+            QListWidgetItem* item = items.at(i);
+            GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
+            v_places.push_back(geoItem->getPlace());
+        }
+        //Marble::Route** routes = new Marble::Route*[size];
+        routes = new Marble::Route*[size];
+        for(int i = 0; i < size; ++i)
+        {
+            routes[i] =  new Marble::Route[size];
+            for(int j = 0; j < size; ++j)
+            {
+                Coordinates from = v_places[i]->getCoordinates();
+                Coordinates to = v_places[j]->getCoordinates();
+                Marble::Route route = getRoute(from, to);
+                routes[i][j] = route;
+                writeLog(QString("Found route for %1 and %2").arg(i).arg(j));
+            }
+        }
+        placesListChanged = false;
+    }
     this->m_progBarDial->show();
     KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(pluginNum);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
-    std::vector<Place*> v_places;
-    std::vector<QListWidgetItem*> items = list.getAllItems();
-    for(int i=0; i<items.size(); i++)
-    {
-        QListWidgetItem* item = items.at(i);
-        GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
-        v_places.push_back(geoItem->getPlace());
-    }
-    interface->calculate(v_places);
+    interface->calculate(v_places, routes);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
     this->m_progBarDial->hide();
     unlockGUI();
@@ -136,7 +150,6 @@ void MainWindow::selectPlace(Place* p)
         this->map.deleteMarker(this->selectedPlace->getCoordinates());
     }
     this->map.putMarker(p->getCoordinates(), MapWidget::Selected);
-    delete this->selectedPlace;
     this->selectedPlace = p;
     browser.showAddButton();
     this->map.center(p->getCoordinates());

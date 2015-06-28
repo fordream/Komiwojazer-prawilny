@@ -50,6 +50,9 @@ private:
     ProgressBarDialog* m_progBarDial;
     void lockGUI();
     void unlockGUI();
+    bool placesListChanged;
+    std::vector<Place*> v_places;
+    Marble::Route** routes;
 
 public:
     virtual Route getRoute(Coordinates from, Coordinates to);

@@ -14,7 +14,7 @@ public:
     /**
      * @brief AppInterface - konstruktor
      */
-    AppInterface();
+    explicit AppInterface(){}
     /**
      * @brief ~AppInterface
      */

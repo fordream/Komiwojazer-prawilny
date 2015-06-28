@@ -33,7 +33,15 @@ public:
      */
     KomiwojazerPluginInterface* getPluginByIndex(int _index) const;
 private:
+    /**
+     * @brief m_numberOfPlugins
+     * Ilość dostępnych pluginów.
+     */
     int m_numberOfPlugins;
+    /**
+     * @brief m_pluginsMap
+     * Kontener przechowujący wskaźniki do dostępnych pluginów i ich indeksy.
+     */
     QMap<int, KomiwojazerPluginInterface*> m_pluginsMap;
 };
 

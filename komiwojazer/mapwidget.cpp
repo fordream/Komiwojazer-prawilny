@@ -37,7 +37,6 @@ void MapWidget::putMarker(qreal lon, qreal lat, MarkerType type)
 
 void MapWidget::putMarker(Coordinates marker, MarkerType type)
 {
-    std::cout<<"Marker type : "<<this->markers.size()<<std::endl;
     this->markers[marker] = type;
     this->update();
 }
@@ -110,9 +109,7 @@ void MapWidget::mouseDoubleClickEvent ( QMouseEvent * event )
         if (geoCoordinates(event->x(), event->y(), lon, lat, GeoDataCoordinates::Radian))
         {
             QString placeDesc = this->findPlaceByCoordinates(lon, lat);
-            std::cout<<"Found point jej: "<<lon<<"  "<<lat<<"  "<<placeDesc.toStdString()<<std::endl;
             emit placeSelected(lon, lat, placeDesc);
-//            //this->setFocusedMarker(lon, lat);
         }
     }
 }
@@ -123,8 +120,6 @@ void MapWidget::customPaint(Marble::GeoPainter* painter)
     for (i=markers.begin(); i!=this->markers.end(); ++i)
     {
         GeoDataCoordinates coordinates(i->first.getLon(), i->first.getLat(), 0.0);
-        //painter->setBrush(Qt::green);
-        //painter->drawEllipse(coordiantes, 15, 15);
         painter->drawImage(coordinates, QImage(getMarkerIcon(i->second)));
     }
 

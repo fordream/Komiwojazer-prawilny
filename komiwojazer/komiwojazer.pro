@@ -37,7 +37,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mapwidget.cpp \
     komipluginmanager.cpp \
-    appinterface.cpp \
     progressbardialog.cpp \
     listwithbuttons.cpp \
     browser.cpp

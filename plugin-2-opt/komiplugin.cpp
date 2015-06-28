@@ -65,7 +65,7 @@ QString KomiPlugin::getDescription() const
     return QString("Solves TSP with 2-opt algorythm");
 }
 
-std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
+std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marble::Route** routes)
 {
     m_bRunAlgorithm = true;
     map->setProgress(0);
@@ -73,25 +73,8 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
     int* solution = new int[size];
     int* new_solution = new int[size];
 
-    Marble::Route** routes = new Marble::Route*[size];
     for(int i = 0; i < size; ++i)
     {
-        routes[i] =  new Marble::Route[size];
-        for(int j = 0; j < size; ++j)
-        {
-            if(i == j)
-            {
-                 routes[i][j] = Marble::Route();
-            }
-            else
-            {
-                Coordinates from = places[i]->getCoordinates();
-                Coordinates to = places[j]->getCoordinates();
-                routes[i][j] = map->getRoute(from, to);
-            }
-            map->writeLog(QString("Found route for %1 and %2").arg(i).arg(j));
-        }
-
         solution[i] = i;
     }
 

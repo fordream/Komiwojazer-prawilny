@@ -64,7 +64,7 @@ QString KomiPlugin::getDescription() const
     return QString("Solves TSP with greedy algorythm");
 }
 
-std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
+std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marble::Route** routes)
 {
     m_bRunAlgorithm = true;
     std::vector<int> v_usedPlaces;
@@ -72,20 +72,6 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
     int size = places.size();
     if(size == 0)
         return v_toRet;
-
-    Marble::Route** routes = new Marble::Route*[size];
-    for(int i = 0; i < size; ++i)
-    {
-        routes[i] =  new Marble::Route[size];
-        for(int j = 0; j < size; ++j)
-        {
-            Coordinates from = places[i]->getCoordinates();
-            Coordinates to = places[j]->getCoordinates();
-            Marble::Route route = map->getRoute(from, to);
-            routes[i][j] = route;
-            map->writeLog(QString("Found route for %1 and %2").arg(i).arg(j));
-        }
-    }
 
     v_usedPlaces.push_back(0);
 
@@ -123,11 +109,11 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
         this->map->drawRoute(toDraw);
     }
 
-    for(int i = 0; i < size; ++i)
-    {
-        delete[] routes[i];
-    }
-    delete[] routes;
+//    for(int i = 0; i < size; ++i)
+//    {
+//        delete[] routes[i];
+//    }
+//    delete[] routes;
 
     for(auto it = v_usedPlaces.begin(); it != v_usedPlaces.end(); ++it)
         v_toRet.push_back(places.at(*it));

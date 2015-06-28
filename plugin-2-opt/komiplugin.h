@@ -57,7 +57,7 @@ public:
     ~KomiPlugin();
     virtual QString getName() const Q_DECL_OVERRIDE;
     virtual QString getDescription() const Q_DECL_OVERRIDE;
-    virtual std::vector<Place*> calculate(const std::vector<Place*> places) Q_DECL_OVERRIDE;
+    virtual std::vector<Place*> calculate(const std::vector<Place*> places, Marble::Route** routes) Q_DECL_OVERRIDE;
     virtual bool connectToSLOT(QObject* pReceiver, const char* pszSlot, bool bConnect) const
     {
         if(bConnect)

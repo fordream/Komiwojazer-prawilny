@@ -44,21 +44,31 @@
 #include <QString>
 #include "appinterface.h"
 #include <place.h>
+#include <marble/Route.h>
 
 //! [0]
 class KomiwojazerPluginInterface
 {
 public:
+    /**
+     * @brief KomiwojazerPluginInterface
+     * Konstruktor
+     */
     explicit KomiwojazerPluginInterface() :map(0), m_bRunAlgorithm(true){}
+    /**
+     * @brief setMap
+     * Ustawia wskaźnik do głównej aplikacji.
+     * @param _map wskaźnik do aplikacji
+     */
     virtual void setMap(AppInterface * _map) {map =_map;}
-    //! Destructor
+    //! Destruktor
     virtual ~KomiwojazerPluginInterface() {}
     //! Returns (short) name (for menu entry, etc.)
     virtual QString getName() const = 0;
     //! Returns long name/description (for tooltip, etc.)
     virtual QString getDescription() const = 0;
     //! Main calculating function. It tab is 2D array of cost moving from place i-th to j-th place (tab[i][j]). sorted - sorted indexes with optimal rout.
-    virtual std::vector<Place*> calculate(const std::vector<Place*> places) = 0;
+    virtual std::vector<Place*> calculate(const std::vector<Place*> places, Marble::Route** routes) = 0;
     virtual bool connectToSLOT(QObject* pReceiver, const char* pszSlot, bool bConnect) const = 0;
 public slots:
     virtual void cancel() = 0;

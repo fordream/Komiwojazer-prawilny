@@ -64,7 +64,7 @@ QString KomiPlugin::getDescription() const
     return QString("Plugin descrition");
 }
 
-std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places)
+std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marble::Route** routes)
 {
     std::vector<Place*> v_toRet = places;
     m_bRunAlgorithm = true;
