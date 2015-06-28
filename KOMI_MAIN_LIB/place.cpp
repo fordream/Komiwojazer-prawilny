@@ -20,7 +20,7 @@ Coordinates Place::getCoordinates() const
     return this->coordinates;
 }
 
-QString Place::getName()
+QString Place::getName() const
 {
     return this->name;
 }

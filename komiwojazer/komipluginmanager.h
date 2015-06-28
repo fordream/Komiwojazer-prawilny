@@ -22,7 +22,7 @@ public:
      * @brief loadPlugin
      * Szuka pluginów i zapisuje ich nazwy.
      * @param _plugIndexNameMap kontener, w kórym zapisywane są nazwy pluginów.
-     * @return
+     * @return Czy udało się załadować plugin
      */
     bool loadPlugin(QMap<int, QString> &_plugIndexNameMap);
     /**

@@ -25,6 +25,14 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete m_progBarDial;
+    if(v_places.size()>0)
+    {
+        for(int i = 0; i < v_places.size(); ++i)
+        {
+            delete[] routes[i];
+        }
+        delete[] routes;
+    }
 }
 
 void MainWindow::prepareGUI()
@@ -153,7 +161,7 @@ void MainWindow::calculate(int pluginNum)
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
     interface->calculate(v_places, routes);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
-    this->m_progBarDial->hide();
+    this->m_progBarDial->hide();    
     unlockGUI();
 }
 

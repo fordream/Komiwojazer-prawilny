@@ -102,18 +102,19 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
     if(v_usedPlaces.size() > 1)
     {
         std::vector<Marble::Route> toDraw;
+        double overallLength = 0;
         for(int i = 0; i < v_usedPlaces.size()-1; ++i)
         {
-            toDraw.push_back(routes[v_usedPlaces.at(i)][v_usedPlaces.at(i+1)]);
+            Marble::Route r = routes[v_usedPlaces.at(i)][v_usedPlaces.at(i+1)];
+            overallLength += r.distance();
+            toDraw.push_back(r);
         }
+        Marble::Route r = routes[v_usedPlaces.at(size-1)][v_usedPlaces.at(0)];
+        overallLength += r.distance();
+        toDraw.push_back(r);
+        map->writeLog(QString("Overall road length from greedy algorithm: %1 meters").arg(overallLength));
         this->map->drawRoute(toDraw);
     }
-
-//    for(int i = 0; i < size; ++i)
-//    {
-//        delete[] routes[i];
-//    }
-//    delete[] routes;
 
     for(auto it = v_usedPlaces.begin(); it != v_usedPlaces.end(); ++it)
         v_toRet.push_back(places.at(*it));

@@ -91,24 +91,25 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
         int zi;
 
         for (ci = 0; ci < size; ++ci)
+        {
             for (xi = 0; xi < size; ++xi)
             {
                 yi = (ci + 1) % size;
                 zi = (xi + 1) % size;
 
-                double cy = routes[ci][yi].distance();
-                double xz = routes[xi][zi].distance();
-                double cx = routes[ci][xi].distance();
-                double yz = routes[yi][zi].distance();
-
                 if (xi != ci && xi != yi)
                 {
+                    double cy = routes[solution[ci]][solution[yi]].distance();
+                    double xz = routes[solution[xi]][solution[zi]].distance();
+                    double cx = routes[solution[ci]][solution[xi]].distance();
+                    double yz = routes[solution[yi]][solution[zi]].distance();
+
                     double oldDistance = cy + xz;
                     int yi_iter = yi;
                     int xi_iter = xi;
                     while(xi_iter != yi_iter)
                     {
-                        oldDistance += routes[yi_iter][(yi_iter - 1)%size].distance();
+                        oldDistance += routes[solution[yi_iter]][solution[(yi_iter + 1) % size]].distance();
                         yi_iter = (yi_iter + 1) % size;
                     }
 
@@ -118,8 +119,16 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
                     xi_iter = xi;
                     while(xi_iter != yi_iter)
                     {
-                        newDistance += routes[xi_iter][(xi_iter - 1)%size].distance();
-                        xi_iter = (xi_iter - 1) % size;
+                        int oneLess;
+                        if(xi_iter == 0)
+                            oneLess = size - 1;
+                        else
+                            oneLess = xi_iter - 1;
+                        newDistance += routes[solution[xi_iter]][solution[oneLess]].distance();
+                        if(xi_iter == 0)
+                            xi_iter = size - 1;
+                        else
+                            --xi_iter;
                     }
 
                     double gain = oldDistance - newDistance;
@@ -131,6 +140,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
                     }
                 }
             }
+        }
 
         if (found)
         {
@@ -145,7 +155,10 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
             {
                 new_solution[n] = solution[xi];
                 n = n + 1;
-                xi = (xi - 1) % size;
+                if(xi == 0)
+                    xi = size - 1;
+                else
+                    xi = xi - 1;
             }
             new_solution[n] = solution[yi];
             n = n + 1;
@@ -170,11 +183,18 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
 
     if(size > 1)
     {
+        double overallLength = 0;
         std::vector<Marble::Route> toDraw;
         for(int i = 0; i < size-1; ++i)
         {
-            toDraw.push_back(routes[solution[i]][solution[i+1]]);
+            Marble::Route r = routes[solution[i]][solution[i+1]];
+            overallLength += r.distance();
+            toDraw.push_back(r);
         }
+        Marble::Route r = routes[solution[size-1]][solution[0]];
+        overallLength += r.distance();
+        toDraw.push_back(r);
+        map->writeLog(QString("Overall road length from 2-opt algorithm: %1 meters").arg(overallLength));
         this->map->drawRoute(toDraw);
     }
 

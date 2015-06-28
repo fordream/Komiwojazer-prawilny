@@ -5,6 +5,10 @@
 #include <marble/GeoDataPlacemark.h>
 #include "komi_main_lib_global.h"
 
+/**
+ * @brief The Place class
+ * Miejsce reprezentowane na mapie
+ */
 class KOMI_MAIN_LIBSHARED_EXPORT Place
 {
 public:
@@ -12,10 +16,18 @@ public:
     Place(Coordinates coor, QString name);
     Place(Marble::GeoDataPlacemark);
     Coordinates getCoordinates() const;
-    QString getName();
+    QString getName() const;
 
 private:
+    /**
+     * @brief coordinates
+     * Współrzędne geograficzne miejsca
+     */
     Coordinates coordinates;
+    /**
+     * @brief name
+     * Nazwa miejsca
+     */
     QString name;
 };
 

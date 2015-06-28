@@ -46,7 +46,10 @@
 #include <place.h>
 #include <marble/Route.h>
 
-//! [0]
+/**
+ * @brief The KomiwojazerPluginInterface class
+ * Interfejs pluginowy aplikacji po którym dziedziczą pluginy
+ */
 class KomiwojazerPluginInterface
 {
 public:
@@ -61,21 +64,45 @@ public:
      * @param _map wskaźnik do aplikacji
      */
     virtual void setMap(AppInterface * _map) {map =_map;}
-    //! Destruktor
+    /**
+     * @brief KomiwojazerPluginInterface
+     * Destruktor
+     */
     virtual ~KomiwojazerPluginInterface() {}
     /**
      * @brief getName
-     * @return
+     * @return Nazwa pluginu
      */
     virtual QString getName() const = 0;
-    //! Returns long name/description (for tooltip, etc.)
+    /**
+     * @brief getDescription
+     * @return Zwraca opis pluginu
+     */
     virtual QString getDescription() const = 0;
-    //! Main calculating function. It tab is 2D array of cost moving from place i-th to j-th place (tab[i][j]). sorted - sorted indexes with optimal rout.
+    /**
+     * @brief calculate
+     * Główna funkcja obliczająca obtymalną drogę według danego algorytmu.
+     * @param places wektor wskaźników położeń geograficznych które należy odwiedzić
+     * @param routes tablica 2d dróg z każdego miejsca do każdego innego routes[i][j] przechowuje trasę z i do j, która może być różna od trasy z j do i (np. przez drogi jednokierunkowe)
+     * @return Zwraca posortowane elementy trasy
+     */
     virtual std::vector<Place*> calculate(const std::vector<Place*> places, Marble::Route** routes) = 0;
+    /**
+     * @brief connectToSLOT
+     * Podłącza sygnał odpowiedzialny za anulownanie algorytmu do odpowiedniego slota w pluginie
+     * @param pReceiver źródło sygnału
+     * @param pszSlot sygnał
+     * @param bConnect jeśli true - podłączamy, false - odłączamy
+     * @return Czy się udało
+     */
     virtual bool connectToSLOT(QObject* pReceiver, const char* pszSlot, bool bConnect) const = 0;
 public slots:
     virtual void cancel() = 0;
 protected:
+    /**
+     * @brief map
+     * Wskaźnik do głównego interjfejsu aplikacji
+     */
     AppInterface * map;
     bool m_bRunAlgorithm;
 };
@@ -88,5 +115,4 @@ QT_BEGIN_NAMESPACE
 Q_DECLARE_INTERFACE(KomiwojazerPluginInterface, KomiwojazerPluginInterface_iid)
 QT_END_NAMESPACE
 
-//! [0]
 #endif
