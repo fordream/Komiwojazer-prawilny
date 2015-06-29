@@ -92,7 +92,7 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
         watchdog.setSingleShot(true);
         connect( &watchdog, SIGNAL(timeout()), &localEventLoop, SLOT(quit()));
         connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
-        watchdog.start( 30000 );
+        watchdog.start( 10000 );
         manager->retrieveRoute();
         localEventLoop.exec();
     }
