@@ -1,6 +1,7 @@
 #include "mapwidget.h"
 #include <iostream>
 #include <marble/GeoDataDocument.h>
+#include <QPainter>
 
 MapWidget::MapWidget()
     : MarbleWidget()
@@ -117,20 +118,32 @@ void MapWidget::customPaint(Marble::GeoPainter* painter)
     for (i=markers.begin(); i!=this->markers.end(); ++i)
     {
         GeoDataCoordinates coordinates(i->first.getLon(), i->first.getLat(), 0.0);
-        painter->drawImage(coordinates, QImage(getMarkerIcon(i->second)));
+        painter->drawImage(coordinates, QImage(getMarkerIcon(i->second, "1")));
     }
 
 }
 
-QImage MapWidget::getMarkerIcon(MarkerType type)
+QImage MapWidget::getMarkerIcon(MarkerType type, QString text)
 {
+    QString path;
     switch (type)
     {
         case Normal:
-            return QImage(":/images/grey.png");
+        {
+            path = ":/images/grey.png";
+            break;
+        }
         case Selected:
-            return QImage(":/images/yellow.png");
+        {
+            path = ":/images/yellow.png";
+            break;
+        }
     }
+    QImage marker(path);
+    QPainter p(&marker);
+    p.setFont(QFont("Times", 12, QFont::Bold));
+    p.drawText(0, 0, 50, 50, Qt::AlignCenter, text);
+    return marker;
 }
 
 void MapWidget::center(Coordinates c)

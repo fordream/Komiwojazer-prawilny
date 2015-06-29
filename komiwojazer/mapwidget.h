@@ -87,7 +87,7 @@ private:
     //MarbleMap map;
     virtual void customPaint(Marble::GeoPainter* painter);
     std::map<Coordinates, MarkerType> markers;
-    QImage getMarkerIcon(MarkerType type);
+    QImage getMarkerIcon(MarkerType type, QString text);
     Coordinates focusedMarker;
     Route route;
 
