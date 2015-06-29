@@ -108,11 +108,13 @@ std::vector<Place*> KomiPluginGreedy::calculate(const std::vector<Place*> places
             Marble::Route r = routes[v_usedPlaces.at(i)][v_usedPlaces.at(i+1)];
             overallLength += r.distance();
             toDraw.push_back(r);
+            map->writeLog(QString("Place number %1: %2\n").arg(i+1).arg(places.at(v_usedPlaces.at(i))->getName()));
         }
         Marble::Route r = routes[v_usedPlaces.at(size-1)][v_usedPlaces.at(0)];
         overallLength += r.distance();
         toDraw.push_back(r);
-        map->writeLog(QString("Overall road length from greedy algorithm: %1 meters").arg(overallLength));
+        map->writeLog(QString("Place number %1: %2\n").arg(size).arg(places.at(v_usedPlaces.at(size-1))->getName()));
+        map->writeLog(QString("Overall road length from greedy algorithm: %1 km").arg(overallLength/1000));
         this->map->drawRoute(toDraw);
     }
 
