@@ -40,56 +40,90 @@
 
 #include <QtWidgets>
 
-#include "komiplugin.h"
+#include "komipluginGreedy.h"
 
-KomiPlugin::KomiPlugin()
+KomiPluginGreedy::KomiPluginGreedy()
 {
 
 }
 
-KomiPlugin::~KomiPlugin()
+KomiPluginGreedy::~KomiPluginGreedy()
 {
 
 }
 
 //! Returns (short) name (for menu entry, etc.)
-QString KomiPlugin::getName() const
+QString KomiPluginGreedy::getName() const
 {
-    return QString("Example plugin/random");
+    return QString("Greedy");
 }
 
 //! Returns long name/description (for tooltip, etc.)
-QString KomiPlugin::getDescription() const
+QString KomiPluginGreedy::getDescription() const
 {
-    return QString("Plugin descrition");
+    return QString("Solves TSP with greedy algorythm");
 }
 
-std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marble::Route** routes)
+std::vector<Place*> KomiPluginGreedy::calculate(const std::vector<Place*> places, Marble::Route** routes)
 {
-    std::vector<Place*> v_toRet = places;
     m_bRunAlgorithm = true;
+    std::vector<int> v_usedPlaces;
+    std::vector<Place*> v_toRet;
+    int size = places.size();
+    if(size == 0)
+        return v_toRet;
 
-    std::vector<int> test;
-    for(int i = 0; i < 100000; ++i)
+    v_usedPlaces.push_back(0);
+
+    qreal min = std::numeric_limits<qreal>::max();
+    int index;
+    while(v_usedPlaces.size() != size && m_bRunAlgorithm)
     {
-        test.clear();
-        for(int j = 0; j < 1000; ++j)
+        for(int i = 0; i < size; ++i)
         {
-            test.push_back(i*j);
-            if(j % 50 == 0)
-                QApplication::processEvents();
+            if(v_usedPlaces.end() != std::find(v_usedPlaces.begin(), v_usedPlaces.end(), i))
+            {
+                continue;
+            }
+
+            if(routes[v_usedPlaces.back()][i].distance() < min)
+            {
+                min = routes[v_usedPlaces.back()][i].distance();
+                index = i;
+            }
         }
+        v_usedPlaces.push_back(index);
+        min = std::numeric_limits<qreal>::max();\
 
-        map->setProgress(i/1000);
-
-        if(!m_bRunAlgorithm)
-            return v_toRet;
+        map->setProgress(v_usedPlaces.size() / size * 100);
+        QApplication::processEvents();
     }
+
+    if(v_usedPlaces.size() > 1)
+    {
+        std::vector<Marble::Route> toDraw;
+        double overallLength = 0;
+        for(int i = 0; i < v_usedPlaces.size()-1; ++i)
+        {
+            Marble::Route r = routes[v_usedPlaces.at(i)][v_usedPlaces.at(i+1)];
+            overallLength += r.distance();
+            toDraw.push_back(r);
+        }
+        Marble::Route r = routes[v_usedPlaces.at(size-1)][v_usedPlaces.at(0)];
+        overallLength += r.distance();
+        toDraw.push_back(r);
+        map->writeLog(QString("Overall road length from greedy algorithm: %1 meters").arg(overallLength));
+        this->map->drawRoute(toDraw);
+    }
+
+    for(auto it = v_usedPlaces.begin(); it != v_usedPlaces.end(); ++it)
+        v_toRet.push_back(places.at(*it));
+
 
     return v_toRet;
 }
 
-void KomiPlugin::cancel()
+void KomiPluginGreedy::cancel()
 {
     m_bRunAlgorithm = false;
 }

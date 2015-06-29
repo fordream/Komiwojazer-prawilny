@@ -1,8 +1,10 @@
 TEMPLATE        = lib
 CONFIG         += plugins
 QT             += widgets
-HEADERS         = komiplugin.h
-SOURCES         = komiplugin.cpp
+HEADERS         = \
+    komiplugin2opt.h
+SOURCES         = \
+    komiplugin2opt.cpp
 TARGET          = $$qtLibraryTarget(komiPlugin-2-opt)
 DESTDIR         = ../plugins
 

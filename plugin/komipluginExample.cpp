@@ -38,33 +38,58 @@
 **
 ****************************************************************************/
 
-#ifndef KOMIPLUGIN_H
-#define KOMIPLUGIN_H
+#include <QtWidgets>
 
-#include <QObject>
-#include <QtPlugin>
-#include "komiwojazerplugininterface.h"
+#include "komipluginExample.h"
 
-class KomiPlugin : public QObject, KomiwojazerPluginInterface
+KomiPluginExample::KomiPluginExample()
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "ztpr.Michal.Magda.KomiwojazerPluginInterface" FILE "komiplugin.json")
-    Q_INTERFACES(KomiwojazerPluginInterface)
 
-public:
-    KomiPlugin();
-    ~KomiPlugin();
-    virtual QString getName() const Q_DECL_OVERRIDE;
-    virtual QString getDescription() const Q_DECL_OVERRIDE;
-    virtual std::vector<Place*> calculate(const std::vector<Place *> places, Marble::Route** routes) Q_DECL_OVERRIDE;
-    virtual bool connectToSLOT(QObject* pReceiver, const char* pszSlot, bool bConnect) const
+}
+
+KomiPluginExample::~KomiPluginExample()
+{
+
+}
+
+//! Returns (short) name (for menu entry, etc.)
+QString KomiPluginExample::getName() const
+{
+    return QString("Example plugin/random");
+}
+
+//! Returns long name/description (for tooltip, etc.)
+QString KomiPluginExample::getDescription() const
+{
+    return QString("Plugin descrition");
+}
+
+std::vector<Place*> KomiPluginExample::calculate(const std::vector<Place*> places, Marble::Route** routes)
+{
+    std::vector<Place*> v_toRet = places;
+    m_bRunAlgorithm = true;
+
+    std::vector<int> test;
+    for(int i = 0; i < 100000; ++i)
     {
-        if(bConnect)
-           return connect(pReceiver, pszSlot, this, SLOT(cancel()));
-         return disconnect(pReceiver, pszSlot, this, SLOT(cancel()));
-    }
-public slots:
-    virtual void cancel() Q_DECL_OVERRIDE;
-};
+        test.clear();
+        for(int j = 0; j < 1000; ++j)
+        {
+            test.push_back(i*j);
+            if(j % 50 == 0)
+                QApplication::processEvents();
+        }
 
-#endif
+        map->setProgress(i/1000);
+
+        if(!m_bRunAlgorithm)
+            return v_toRet;
+    }
+
+    return v_toRet;
+}
+
+void KomiPluginExample::cancel()
+{
+    m_bRunAlgorithm = false;
+}

@@ -40,32 +40,32 @@
 
 #include <QtWidgets>
 
-#include "komiplugin.h"
+#include "komiplugin2opt.h"
 #include <place.h>
 
-KomiPlugin::KomiPlugin()
+KomiPlugin2OPT::KomiPlugin2OPT()
 {
 
 }
 
-KomiPlugin::~KomiPlugin()
+KomiPlugin2OPT::~KomiPlugin2OPT()
 {
 
 }
 
 //! Returns (short) name (for menu entry, etc.)
-QString KomiPlugin::getName() const
+QString KomiPlugin2OPT::getName() const
 {
     return QString("2-opt");
 }
 
 //! Returns long name/description (for tooltip, etc.)
-QString KomiPlugin::getDescription() const
+QString KomiPlugin2OPT::getDescription() const
 {
     return QString("Solves TSP with 2-opt algorythm");
 }
 
-std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marble::Route** routes)
+std::vector<Place*> KomiPlugin2OPT::calculate(const std::vector<Place*> places, Marble::Route** routes)
 {
     m_bRunAlgorithm = true;
     int progress = 0;
@@ -208,7 +208,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
     return v_toRet;
 }
 
-void KomiPlugin::cancel()
+void KomiPlugin2OPT::cancel()
 {
     m_bRunAlgorithm = false;
 }

@@ -45,16 +45,15 @@
 #include <QtPlugin>
 #include "komiwojazerplugininterface.h"
 
-//! [0]
-class KomiPlugin : public QObject, KomiwojazerPluginInterface
+class KomiPluginExample : public QObject, KomiwojazerPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "ztpr.Michal.Magda.KomiwojazerPluginInterface" FILE "komiplugin.json")
     Q_INTERFACES(KomiwojazerPluginInterface)
 
 public:
-    KomiPlugin();
-    ~KomiPlugin();
+    KomiPluginExample();
+    ~KomiPluginExample();
     virtual QString getName() const Q_DECL_OVERRIDE;
     virtual QString getDescription() const Q_DECL_OVERRIDE;
     virtual std::vector<Place*> calculate(const std::vector<Place*> places, Marble::Route** routes) Q_DECL_OVERRIDE;
@@ -67,6 +66,5 @@ public:
 public slots:
     virtual void cancel() Q_DECL_OVERRIDE;
 };
-//! [0]
 
 #endif

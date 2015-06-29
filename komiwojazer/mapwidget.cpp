@@ -5,7 +5,6 @@
 MapWidget::MapWidget()
     : MarbleWidget()
 {
-
     connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
 }
 

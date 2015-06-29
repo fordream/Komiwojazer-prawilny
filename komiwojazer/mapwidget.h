@@ -22,17 +22,60 @@
 
 using namespace Marble;
 
+/**
+ * @brief The MapWidget class
+ * Klasa dziedzicząca po MarbleWidget odpowiedzialna za wyświetlanie, wyszukiwanie i zarządzanie danymi dotyczącymi mapy OSM
+ */
 class MapWidget : public MarbleWidget
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief MapWidget
+     * Konstruktor
+     */
     MapWidget();
+    /**
+     * @brief findPlaceByName
+     * Wyszukuje miejsca na mapie na podstawie nazwy
+     * @param name Nazwa miejsca która ma być wyszukana
+     * @returns Wektor miejsc pasujących do nazwy
+     */
     QVector<Place*> findPlaceByName(QString name);
+    /**
+     * @brief findPlaceByCoordinates
+     * Wyszukuje miejsca na mapie po współrzędnych
+     * @param lon Długość geograficzna
+     * @param lat Szerokość geograficzna
+     * @returns Miejsce
+     */
     QString findPlaceByCoordinates(double lon, double lat);
+    /**
+     * @brief drawRoute
+     * Rysuje pojedyńczą drogę na mapie
+     * @param route Droga do narysowania
+     */
     void drawRoute(Route route);
+    /**
+     * @brief drawRoute
+     * Rysuje drogi na mapie.
+     * @param routes Wektor dróg do narysowania
+     */
     void drawRoute(std::vector<Route> routes);
+    /**
+     * @brief findRoute
+     * Znajduje drogę pomiędzy dwoma punktami na mapie
+     * @param from Miejsce startowe
+     * @param to Miejsce docelowe
+     * @returns Znaleziona droga
+     */
     Route findRoute(Coordinates from, Coordinates to);
+    /**
+     * @brief mouseDoubleClickEvent
+     * Dodaje marker na mapie
+     * @param mouseDoubleClickEvent Event myszy
+     */
     void mouseDoubleClickEvent ( QMouseEvent * event );
     void setFocusedMarker(double lon, double lat);
     void setFocusedMarker(Coordinates marker);
