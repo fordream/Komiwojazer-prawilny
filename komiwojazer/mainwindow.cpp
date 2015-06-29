@@ -33,11 +33,10 @@ MainWindow::~MainWindow()
         }
         delete[] routes;
     }
-<<<<<<< HEAD
+
     m_routesUnorderedMap.clear();
-=======
-    delete selectedPlace;
->>>>>>> 33aeddeae693ee3df52ad56bfdba4fbe92a8db72
+    if(selectedPlace != nullptr)
+        delete selectedPlace;
 }
 
 void MainWindow::prepareGUI()
@@ -93,13 +92,13 @@ void MainWindow::searchButton_clicked(QString text)
 
 void MainWindow::addPlace()
 {
-    std::cout<<"add place  "<<std::endl;
+    //std::cout<<"add place  "<<std::endl;
     //GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
     //Place* place=geoItem->getPlace();
     //std::cout<<"add place  "<<std::endl;
     if (this->selectedPlace!=nullptr && !list.itemExist(selectedPlace->getName()))
     {
-        std::cout<<"no place  "<<std::endl;
+        //std::cout<<"no place  "<<std::endl;
         GeoListItem* geoItem = new GeoListItem(this->selectedPlace);
         list.addItem(geoItem);
         //std::cout<<place->getCoordinates().getLat()<<"  "<<place->getCoordinates().getLon()<<std::endl;
