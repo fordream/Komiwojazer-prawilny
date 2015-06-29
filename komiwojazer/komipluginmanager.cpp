@@ -11,10 +11,13 @@ KomiPluginManager::KomiPluginManager()
 
 KomiPluginManager::~KomiPluginManager()
 {
-
+    //m_pluginsMap;
+//    for(QMap<int, KomiwojazerPluginInterface*>::iterator it = m_pluginsMap.begin(); it != m_pluginsMap.end(); ++it)
+//    {
+//        it.value()->
+//    }
 }
 
-//! [3]
 bool KomiPluginManager::loadPlugin(QMap<int, QString> &_plugIndexNameMap)
 {
     QDir pluginsDir(QDir::currentPath());

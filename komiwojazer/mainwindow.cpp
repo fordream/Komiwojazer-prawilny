@@ -157,11 +157,13 @@ void MainWindow::calculate(int pluginNum)
         placesListChanged = false;
     }
     this->m_progBarDial->show();
+    this->repaint();
     KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(pluginNum);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
     interface->calculate(v_places, routes);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
-    this->m_progBarDial->hide();    
+    this->m_progBarDial->hide();
+    this->repaint();
     unlockGUI();
 }
 
