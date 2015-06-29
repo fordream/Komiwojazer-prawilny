@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>508</width>
-    <height>73</height>
+    <height>80</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -56,5 +56,22 @@
  <resources>
   <include location="images.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>input</sender>
+   <signal>returnPressed()</signal>
+   <receiver>button_search</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>473</x>
+     <y>23</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -68,7 +68,8 @@ QString KomiPlugin::getDescription() const
 std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marble::Route** routes)
 {
     m_bRunAlgorithm = true;
-    map->setProgress(0);
+    int progress = 0;
+    map->setProgress(progress);
     size_t size = places.size();
     int* solution = new int[size];
     int* new_solution = new int[size];
@@ -144,6 +145,9 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
 
         if (found)
         {
+            map->writeLog(QString("Found more optimal way, gain: %1 meters\n").arg(best));
+            ++progress;
+            map->setProgress(progress%100);
             ci = best_move[0];
             yi = best_move[1];
             xi = best_move[2];
@@ -194,7 +198,7 @@ std::vector<Place*> KomiPlugin::calculate(const std::vector<Place*> places, Marb
         Marble::Route r = routes[solution[size-1]][solution[0]];
         overallLength += r.distance();
         toDraw.push_back(r);
-        map->writeLog(QString("Overall road length from 2-opt algorithm: %1 meters").arg(overallLength));
+        map->writeLog(QString("Overall road length from 2-opt algorithm: %1 meters\n").arg(overallLength));
         this->map->drawRoute(toDraw);
     }
 

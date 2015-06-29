@@ -12,10 +12,35 @@
 class KOMI_MAIN_LIBSHARED_EXPORT Place
 {
 public:
+    /**
+     * @brief Place
+     * Domyślny konstruktor
+     */
     Place();
+    /**
+     * @brief Place
+     * Konstruktor przyjmujący współrzędne geograficzne i nazwę miejsca
+     * @param coor Współrzędne geograficzne
+     * @param name Nazwa miejsca
+     */
     Place(Coordinates coor, QString name);
+    /**
+     * @brief Place
+     * Konstruktor przyjmujący obiekt klasy GeoDataPlacemark z biblioteki Marble
+     * @param place Miejsce
+     */
     Place(Marble::GeoDataPlacemark);
+    /**
+     * @brief getCoordinates
+     * Zwraca współrzędne geograficzne miejsca
+     * @returns Współrzędne geograficzne miejsca
+     */
     Coordinates getCoordinates() const;
+    /**
+     * @brief getName
+     * Zwraca nazwę miejsca
+     * @returns Nazwa miejsca
+     */
     QString getName() const;
 
 private:

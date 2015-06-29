@@ -13,12 +13,12 @@ TEMPLATE = lib
 
 DEFINES += KOMI_MAIN_LIB_LIBRARY
 
-SOURCES += komi_main_lib.cpp \
+SOURCES += \
         geolistitem.cpp \
         coordinates.cpp \
         place.cpp
 
-HEADERS += komi_main_lib.h\
+HEADERS +=\
         komi_main_lib_global.h \
         geolistitem.h \
         coordinates.h \
