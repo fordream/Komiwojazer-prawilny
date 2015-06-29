@@ -145,6 +145,7 @@ public slots:
      * @param text Nazwa miejsca do wyszukania
      */
     void searchButton_clicked(QString text);
+    void setMarkerNumber();
 
 signals:
     /**

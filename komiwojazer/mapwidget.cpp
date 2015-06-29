@@ -30,15 +30,15 @@ QString MapWidget::findPlaceByCoordinates(double lon, double lat)
     return manager.searchReverseGeocoding(position);
 }
 
-void MapWidget::putMarker(qreal lon, qreal lat, MarkerType type)
+void MapWidget::putMarker(qreal lon, qreal lat, MarkerType type, QString text)
 {
     Coordinates marker(lon, lat);
-    this->putMarker(marker, type);
+    this->putMarker(marker, type, text);
 }
 
-void MapWidget::putMarker(Coordinates marker, MarkerType type)
+void MapWidget::putMarker(Coordinates marker, MarkerType type, QString text)
 {
-    this->markers[marker] = type;
+    this->markers[marker] = std::tuple<MarkerType, QString>(type, text);
     this->update();
 }
 
@@ -114,11 +114,11 @@ void MapWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 
 void MapWidget::customPaint(Marble::GeoPainter* painter)
 {
-    std::map<Coordinates, MarkerType>::iterator i;
+    std::map<Coordinates, std::tuple<MarkerType, QString> >::iterator i;
     for (i=markers.begin(); i!=this->markers.end(); ++i)
     {
         GeoDataCoordinates coordinates(i->first.getLon(), i->first.getLat(), 0.0);
-        painter->drawImage(coordinates, QImage(getMarkerIcon(i->second, "1")));
+        painter->drawImage(coordinates, QImage(getMarkerIcon(std::get<0>(i->second), std::get<1>(i->second))));
     }
 
 }

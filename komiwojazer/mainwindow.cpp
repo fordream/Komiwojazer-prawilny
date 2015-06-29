@@ -169,7 +169,16 @@ void MainWindow::calculate(int pluginNum)
     this->m_progBarDial->update();
     this->m_progBarDial->repaint();
     this->repaint();
+    setMarkerNumber();
     unlockGUI();
+}
+
+void MainWindow::setMarkerNumber()
+{
+    for(int i=0; i<v_places.size(); i++)
+    {
+        this->map.putMarker(v_places.at(i)->getCoordinates(), MapWidget::MarkerType::Normal, QString::number(i+1));
+    }
 }
 
 void MainWindow::selectPlace(Place* p)

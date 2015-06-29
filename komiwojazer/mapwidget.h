@@ -19,6 +19,7 @@
 #include <marble/GeoDataCoordinates.h>
 #include <QEventLoop>
 #include <QTimer>
+#include <tuple>
 
 using namespace Marble;
 
@@ -86,14 +87,14 @@ private:
     Marble::MarbleModel marbleModel;
     //MarbleMap map;
     virtual void customPaint(Marble::GeoPainter* painter);
-    std::map<Coordinates, MarkerType> markers;
+    std::map<Coordinates, std::tuple<MarkerType, QString> > markers;
     QImage getMarkerIcon(MarkerType type, QString text);
     Coordinates focusedMarker;
     Route route;
 
 public slots:
-    void putMarker(qreal lon, qreal lat, MarkerType type=Normal);
-    void putMarker(Coordinates marker, MarkerType type=Normal);
+    void putMarker(qreal lon, qreal lat, MarkerType type=Normal, QString text = "");
+    void putMarker(Coordinates marker, MarkerType type=Normal, QString text = "");
     void deleteMarker(Coordinates marker);
     void routeRetrivedSlot();
 
