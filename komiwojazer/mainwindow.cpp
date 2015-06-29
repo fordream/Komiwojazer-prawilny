@@ -33,7 +33,11 @@ MainWindow::~MainWindow()
         }
         delete[] routes;
     }
+<<<<<<< HEAD
     m_routesUnorderedMap.clear();
+=======
+    delete selectedPlace;
+>>>>>>> 33aeddeae693ee3df52ad56bfdba4fbe92a8db72
 }
 
 void MainWindow::prepareGUI()
