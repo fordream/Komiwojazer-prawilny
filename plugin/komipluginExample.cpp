@@ -80,7 +80,7 @@ std::vector<Place*> KomiPluginExample::calculate(const std::vector<Place*> place
                 QApplication::processEvents();
         }
 
-        map->setProgress(i/1000);
+        m_app->setProgress(i/1000);
 
         if(!m_bRunAlgorithm)
             return v_toRet;

@@ -69,8 +69,8 @@ std::vector<Place*> KomiPlugin2OPT::calculate(const std::vector<Place*> places, 
 {
     m_bRunAlgorithm = true;
     int progress = 0;
-    map->setProgress(progress);
-    size_t size = places.size();
+    m_app->setProgress(progress);
+    int size = (int)places.size();
     int* solution = new int[size];
     int* new_solution = new int[size];
 
@@ -145,9 +145,9 @@ std::vector<Place*> KomiPlugin2OPT::calculate(const std::vector<Place*> places, 
 
         if (found)
         {
-            map->writeLog(QString("Found more optimal way, gain: %1 meters\n").arg(best));
+            m_app->writeLog(QString("Found more optimal way, gain: %1 meters\n").arg(best));
             ++progress;
-            map->setProgress(progress%100);
+            m_app->setProgress(progress%100);
             ci = best_move[0];
             yi = best_move[1];
             xi = best_move[2];
@@ -194,12 +194,12 @@ std::vector<Place*> KomiPlugin2OPT::calculate(const std::vector<Place*> places, 
             Marble::Route r = routes[solution[i]][solution[i+1]];
             overallLength += r.distance();
             toDraw.push_back(r);
-            map->writeLog(QString("Place number %1: %2\n").arg(i+1).arg(places.at(solution[i])->getName()));
+            m_app->writeLog(QString("Place number %1: %2\n").arg((solution[i]+1)).arg(places.at(solution[i])->getName()));
         }
-        map->writeLog(QString("Place number %1: %2\n").arg(size).arg(places.at(solution[size-1])->getName()));
-        map->writeLog(QString("Overall road length from 2-opt algorithm: %1 km\n").arg(overallLength/1000));
+        m_app->writeLog(QString("Place number %1: %2\n").arg(solution[size-1] + 1).arg(places.at(solution[size-1])->getName()));
+        m_app->writeLog(QString("Overall road length from 2-opt algorithm: %1 km\n").arg(overallLength/1000));
 
-        this->map->drawRoute(toDraw);
+        this->m_app->drawRoute(toDraw);
     }
 
     delete[] solution;

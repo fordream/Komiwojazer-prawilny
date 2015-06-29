@@ -45,6 +45,10 @@
 #include <QtPlugin>
 #include "komiwojazerplugininterface.h"
 
+/**
+ * @brief The KomiPluginExample class
+ * Przykładowy plugin
+ */
 class KomiPluginExample : public QObject, KomiwojazerPluginInterface
 {
     Q_OBJECT
@@ -52,11 +56,42 @@ class KomiPluginExample : public QObject, KomiwojazerPluginInterface
     Q_INTERFACES(KomiwojazerPluginInterface)
 
 public:
+    /**
+     * @brief KomiPluginExample
+     * Konstruktor
+     */
     KomiPluginExample();
+    /**
+     * @brief ~KomiPluginExample
+     * Destruktor
+     */
     ~KomiPluginExample();
+    /**
+     * @brief getName
+     * @return Nazwa pluginu
+     */
     virtual QString getName() const Q_DECL_OVERRIDE;
+    /**
+     * @brief getDescription
+     * @return Zwraca opis pluginu
+     */
     virtual QString getDescription() const Q_DECL_OVERRIDE;
+    /**
+     * @brief calculate
+     * Główna funkcja obliczająca obtymalną drogę według danego algorytmu.
+     * @param places wektor wskaźników położeń geograficznych które należy odwiedzić
+     * @param routes tablica 2d dróg z każdego miejsca do każdego innego routes[i][j] przechowuje trasę z i do j, która może być różna od trasy z j do i (np. przez drogi jednokierunkowe)
+     * @return Zwraca posortowane elementy trasy
+     */
     virtual std::vector<Place*> calculate(const std::vector<Place*> places, Marble::Route** routes) Q_DECL_OVERRIDE;
+    /**
+     * @brief connectToSLOT
+     * Podłącza sygnał odpowiedzialny za anulownanie algorytmu do odpowiedniego slota w pluginie
+     * @param pReceiver źródło sygnału
+     * @param pszSlot sygnał
+     * @param bConnect jeśli true - podłączamy, false - odłączamy
+     * @return Czy się udało
+     */
     virtual bool connectToSLOT(QObject* pReceiver, const char* pszSlot, bool bConnect) const
     {
         if(bConnect)

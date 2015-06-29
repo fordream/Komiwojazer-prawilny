@@ -78,9 +78,25 @@ public:
      * @param mouseDoubleClickEvent Event myszy
      */
     void mouseDoubleClickEvent ( QMouseEvent * event );
+    /**
+     * @brief setFocusedMarker
+     * Koncentruje mapę na współrzędnych geograficznych
+     * @param lon Długość geograficzna
+     * @param lat Szerokość geograficzna
+     */
     void setFocusedMarker(double lon, double lat);
+    /**
+     * @brief setFocusedMarker
+     * Koncentruje mapę na współrzędnych geograficznych
+     * @param marker Współrzędne geograficzne
+     */
     void setFocusedMarker(Coordinates marker);
     enum MarkerType {Normal, Selected};
+    /**
+     * @brief center
+     * Koncentruje mapę na współrzędnych geograficznych
+     * @param Coordinates Współrzędne geograficzne
+     */
     void center(Coordinates);
 
 private:
@@ -93,13 +109,48 @@ private:
     Route route;
 
 public slots:
+    /**
+     * @brief putMarker
+     * Wstawia marker na mapę
+     * @param lon Długość geograficzna
+     * @param lat Szerokość geograficzna
+     * @param type Typ markera
+     * @param text Tekst do wyświetlenia na znaczniku
+     */
     void putMarker(qreal lon, qreal lat, MarkerType type=Normal, QString text = "");
+    /**
+     * @brief putMarker
+     * Wstawia marker na mapę
+     * @param marker Współrzędne geograficzne
+     * @param type Typ markera
+     * @param text Tekst do wyświetlenia na znaczniku
+     */
     void putMarker(Coordinates marker, MarkerType type=Normal, QString text = "");
+    /**
+     * @brief deleteMarker
+     * Usuwa marker z mapy
+     * @param marker Współrzędne geograficzne
+     */
     void deleteMarker(Coordinates marker);
+    /**
+     * @brief routeRetrivedSlot
+     * Wywoływany gdy droga została znaleziona
+     */
     void routeRetrivedSlot();
 
 signals:
+    /**
+     * @brief placeSelected
+     * Sygnał oznaczający że miejsce zostało znalezione
+     * double Długość geograficzna
+     * double Szerokość geograficzna
+     * QString Nazwa
+     */
     void placeSelected(double, double, QString);
+    /**
+     * @brief routeFoundSignal
+     * Sygnał informujący, że droga została znaleziona
+     */
     void routeFoundSignal();
 
 

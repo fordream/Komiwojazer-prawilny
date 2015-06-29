@@ -27,7 +27,7 @@ MainWindow::~MainWindow()
     delete m_progBarDial;
     if(v_places.size()>0)
     {
-        for(int i = 0; i < v_places.size(); ++i)
+        for(int i = 0; i < (int)v_places.size(); ++i)
         {
             delete[] routes[i];
         }
@@ -127,7 +127,7 @@ void MainWindow::calculate(int pluginNum)
         }
         if(v_places.size()>0)
         {
-            for(int i = 0; i < v_places.size(); ++i)
+            for(int i = 0; i < (int)v_places.size(); ++i)
             {
                 delete[] routes[i];
             }

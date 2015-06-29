@@ -57,13 +57,13 @@ public:
      * @brief KomiwojazerPluginInterface
      * Konstruktor
      */
-    explicit KomiwojazerPluginInterface() :map(0), m_bRunAlgorithm(true){}
+    explicit KomiwojazerPluginInterface() :m_app(0), m_bRunAlgorithm(true){}
     /**
      * @brief setMap
      * Ustawia wskaźnik do głównej aplikacji.
      * @param _map wskaźnik do aplikacji
      */
-    virtual void setMap(AppInterface * _map) {map =_map;}
+    virtual void setMap(AppInterface * _m_app) {m_app =_m_app;}
     /**
      * @brief KomiwojazerPluginInterface
      * Destruktor
@@ -103,7 +103,11 @@ protected:
      * @brief map
      * Wskaźnik do głównego interjfejsu aplikacji
      */
-    AppInterface * map;
+    AppInterface * m_app;
+    /**
+     * @brief m_bRunAlgorithm
+     * Czy użytkownik chce kontynuować obliczenia
+     */
     bool m_bRunAlgorithm;
 };
 

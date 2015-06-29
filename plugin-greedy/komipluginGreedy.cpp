@@ -95,7 +95,7 @@ std::vector<Place*> KomiPluginGreedy::calculate(const std::vector<Place*> places
         v_usedPlaces.push_back(index);
         min = std::numeric_limits<qreal>::max();\
 
-        map->setProgress(v_usedPlaces.size() / size * 100);
+        m_app->setProgress(v_usedPlaces.size() / size * 100);
         QApplication::processEvents();
     }
 
@@ -108,11 +108,11 @@ std::vector<Place*> KomiPluginGreedy::calculate(const std::vector<Place*> places
             Marble::Route r = routes[v_usedPlaces.at(i)][v_usedPlaces.at(i+1)];
             overallLength += r.distance();
             toDraw.push_back(r);
-            map->writeLog(QString("Place number %1: %2\n").arg(i+1).arg(places.at(v_usedPlaces.at(i))->getName()));
+            m_app->writeLog(QString("Place number %1: %2\n").arg(v_usedPlaces.at(i) + 1).arg(places.at(v_usedPlaces.at(i))->getName()));
         }
-        map->writeLog(QString("Place number %1: %2\n").arg(size).arg(places.at(v_usedPlaces.at(size-1))->getName()));
-        map->writeLog(QString("Overall road length from greedy algorithm: %1 km").arg(overallLength/1000));
-        this->map->drawRoute(toDraw);
+        m_app->writeLog(QString("Place number %1: %2\n").arg(v_usedPlaces.at(size-1)+1).arg(places.at(v_usedPlaces.at(size-1))->getName()));
+        m_app->writeLog(QString("Overall road length from greedy algorithm: %1 km").arg(overallLength/1000));
+        this->m_app->drawRoute(toDraw);
     }
 
     for(auto it = v_usedPlaces.begin(); it != v_usedPlaces.end(); ++it)
