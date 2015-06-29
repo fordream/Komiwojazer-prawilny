@@ -33,6 +33,7 @@ MainWindow::~MainWindow()
         }
         delete[] routes;
     }
+    delete selectedPlace;
 }
 
 void MainWindow::prepareGUI()
