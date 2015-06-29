@@ -41,3 +41,8 @@ bool Coordinates::operator < (const Coordinates& that) const
         return that.lon>this->lon;
     }
 }
+
+bool Coordinates::operator == (const Coordinates& that) const
+{
+    return this->lat == that.lat && this->lon == that.lon;
+}

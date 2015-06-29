@@ -33,6 +33,7 @@ MainWindow::~MainWindow()
         }
         delete[] routes;
     }
+    m_routesUnorderedMap.clear();
 }
 
 void MainWindow::prepareGUI()
@@ -140,7 +141,7 @@ void MainWindow::calculate(int pluginNum)
             GeoListItem* geoItem = dynamic_cast<GeoListItem*>(item);
             v_places.push_back(geoItem->getPlace());
         }
-        //Marble::Route** routes = new Marble::Route*[size];
+        std::unordered_map<std::pair<Coordinates, Coordinates>, Route, pairhash> unordered_map;
         routes = new Marble::Route*[size];
         for(int i = 0; i < size; ++i)
         {
@@ -149,12 +150,28 @@ void MainWindow::calculate(int pluginNum)
             {
                 Coordinates from = v_places[i]->getCoordinates();
                 Coordinates to = v_places[j]->getCoordinates();
-                Marble::Route route = getRoute(from, to);
+                std::pair<Coordinates, Coordinates> pair = std::make_pair(from, to);
+                std::unordered_map<std::pair<Coordinates, Coordinates>, Route, pairhash>::const_iterator got = m_routesUnorderedMap.find(pair);
+                Route route;
+                if(got == m_routesUnorderedMap.end())
+                {
+                    route = getRoute(from, to);
+                    writeLog(QString("Found route from position %1 to %2").arg(i).arg(j));
+                }
+                else
+                {
+                    route = got->second;
+                    writeLog(QString("Already have route from position %1 to %2").arg(i).arg(j));
+                }
+
                 routes[i][j] = route;
-                writeLog(QString("Found route for %1 and %2").arg(i).arg(j));
+                unordered_map[pair] = route;
+
             }
         }
         placesListChanged = false;
+        m_routesUnorderedMap.clear();
+        m_routesUnorderedMap = std::move(unordered_map);
     }
     this->m_progBarDial->show();
     this->m_progBarDial->setProgress(0);
