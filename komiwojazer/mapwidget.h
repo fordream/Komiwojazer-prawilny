@@ -43,7 +43,7 @@ public:
      * @param name Nazwa miejsca która ma być wyszukana
      * @returns Wektor miejsc pasujących do nazwy
      */
-    QVector<Place*> findPlaceByName(QString name);
+    QVector<Place> findPlaceByName(QString name);
     /**
      * @brief findPlaceByCoordinates
      * Wyszukuje miejsca na mapie po współrzędnych

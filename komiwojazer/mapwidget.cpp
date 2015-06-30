@@ -9,14 +9,14 @@ MapWidget::MapWidget()
     connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
 }
 
-QVector<Place*> MapWidget::findPlaceByName(QString name)
+QVector<Place> MapWidget::findPlaceByName(QString name)
 {
     Marble::SearchRunnerManager manager( &marbleModel );
     QVector<Marble::GeoDataPlacemark*> searchResult = manager.searchPlacemarks( name );
-    QVector<Place*> places;
+    QVector<Place> places;
     for(int i=0; i<searchResult.size(); i++)
     {
-        Place* place = new Place(*searchResult.at(i));
+        Place place(*searchResult.at(i));
         places.push_back(place);
         delete searchResult.at(i);
     }

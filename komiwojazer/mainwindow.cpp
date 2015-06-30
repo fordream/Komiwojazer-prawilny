@@ -79,11 +79,11 @@ void MainWindow::placeSelected(double lon, double lat, QString description)
 
 void MainWindow::searchButton_clicked(QString text)
 {
-    QVector<Place*> places=this->map.findPlaceByName(text);
+    QVector<Place> places=this->map.findPlaceByName(text);
     std::vector<QListWidgetItem*> items;
     for(int i=0; i<places.size(); i++)
     {
-        QListWidgetItem* item = new GeoListItem(places.at(i));
+        QListWidgetItem* item = new GeoListItem(&places.at(i));
         items.push_back(item);
         //std::cout<<item->text().toStdString()<<"  "<<item->getCoordinates().longitude()<<"  "<<item->getCoordinates().latitude()<<std::endl;
     }
@@ -159,12 +159,26 @@ void MainWindow::calculate(int pluginNum)
                 if(got == m_routesUnorderedMap.end())
                 {
                     route = getRoute(from, to);
-                    writeLog(QString("Found route from position %1 to %2").arg(i).arg(j));
+                    if(!(from == to) && route.distance() == 0)
+                    {
+                        writeLog(QString("There is posibility there is no route from position %1 to %2").arg(i).arg(j));
+                    }
+                    else
+                    {
+                        writeLog(QString("Found route from position %1 to %2").arg(i).arg(j));
+                    }
                 }
                 else
                 {
                     route = got->second;
-                    writeLog(QString("Already have route from position %1 to %2").arg(i).arg(j));
+                    if(!(from == to) && route.distance() == 0)
+                    {
+                        writeLog(QString("There is posibility there is no route from position %1 to %2").arg(i).arg(j));
+                    }
+                    else
+                    {
+                        writeLog(QString("Already have route from position %1 to %2").arg(i).arg(j));
+                    }
                 }
 
                 routes[i][j] = route;
@@ -183,7 +197,7 @@ void MainWindow::calculate(int pluginNum)
     this->repaint();
     KomiwojazerPluginInterface* interface = pluginManager.getPluginByIndex(pluginNum);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
-    interface->calculate(v_places, routes);
+    v_places = interface->calculate(v_places, routes);
     interface->connectToSLOT(m_progBarDial, SIGNAL(cancelButtonClicked()), true);
     this->m_progBarDial->hide();
     this->m_progBarDial->update();

@@ -5,9 +5,10 @@ GeoListItem::GeoListItem(QString text) : QListWidgetItem(text)
     this->place=nullptr;
 }
 
-GeoListItem::GeoListItem(Place *place) :
-    QListWidgetItem(place->getName()), place(place)
+GeoListItem::GeoListItem(const Place *place) :
+    QListWidgetItem(place->getName())
 {
+    this->place = new Place(*place);
 }
 
 Place* GeoListItem::getPlace()
@@ -18,9 +19,4 @@ Place* GeoListItem::getPlace()
 GeoListItem::~GeoListItem()
 {
     delete this->place;
-}
-
-GeoListItem* GeoListItem::clone()
-{
-    return new GeoListItem(this->place);
 }

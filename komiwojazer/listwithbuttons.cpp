@@ -51,11 +51,7 @@ void ListWithButtons::unlock()
 
 void ListWithButtons::addItem(QListWidgetItem* item)
 {
-    int before = ui->list->count();
-    QString tesx = item->text();
     ui->list->addItem(item);
-    int after = ui->list->count();
-    int cos =9;
 }
 
 void ListWithButtons::addItemToBox(QString text, QVariant var)

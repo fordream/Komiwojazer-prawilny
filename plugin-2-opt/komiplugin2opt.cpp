@@ -194,9 +194,9 @@ std::vector<Place*> KomiPlugin2OPT::calculate(const std::vector<Place*> places, 
             Marble::Route r = routes[solution[i]][solution[i+1]];
             overallLength += r.distance();
             toDraw.push_back(r);
-            m_app->writeLog(QString("Place number %1: %2\n").arg((solution[i]+1)).arg(places.at(solution[i])->getName()));
+            m_app->writeLog(QString("Place number %1: %2\n").arg((i+1)).arg(places.at(solution[i])->getName()));
         }
-        m_app->writeLog(QString("Place number %1: %2\n").arg(solution[size-1] + 1).arg(places.at(solution[size-1])->getName()));
+        m_app->writeLog(QString("Place number %1: %2\n").arg(size).arg(places.at(solution[size-1])->getName()));
         m_app->writeLog(QString("Overall road length from 2-opt algorithm: %1 km\n").arg(overallLength/1000));
 
         this->m_app->drawRoute(toDraw);

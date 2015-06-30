@@ -20,7 +20,7 @@ public:
      * @brief GeoListItem
      * Konstruktor
      */
-    GeoListItem(Place* place);
+    GeoListItem(const Place* place);
     /**
      * @brief ~GeoListItem
      * Destruktor
@@ -37,7 +37,7 @@ public:
      * Kompije element
      * @return Kopia
      */
-    virtual GeoListItem* clone();
+    //virtual GeoListItem* clone();
 
 private:
     /**
