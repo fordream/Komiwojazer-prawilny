@@ -22,10 +22,35 @@
 #include <listwithbuttons.h>
 #include<browser.h>
 #include <QTextBrowser>
+#include <unordered_map>
+#include <utility>
 
 namespace Ui {
 class MainWindow;
 }
+namespace std {
+    template <>
+    struct hash<Coordinates>
+    {
+      std::size_t operator()(const Coordinates& k) const
+      {
+        using std::size_t;
+        using std::hash;
+        using std::string;
+
+        return ((hash<double>()(k.getLon())
+                 ^ hash<double>()(k.getLat()) << 1));
+      }
+    };
+}
+struct pairhash {
+    public:
+    template <typename T, typename U>
+    std::size_t operator()(const std::pair<T, U> &x) const
+    {
+      return std::hash<T>()(x.first) ^ std::hash<U>()(x.second);
+    }
+};
 
 /**
  * @brief The MainWindow class
@@ -36,6 +61,7 @@ class MainWindow : public QMainWindow, public AppInterface
     Q_OBJECT
 
 public:
+
     /**
      * @brief MainWindow
      * Konstruktor
@@ -66,6 +92,7 @@ private:
     bool placesListChanged;
     std::vector<Place*> v_places;
     Marble::Route** routes;
+    std::unordered_map<std::pair<Coordinates, Coordinates>, Route, pairhash> m_routesUnorderedMap;
 
 public:
     /**

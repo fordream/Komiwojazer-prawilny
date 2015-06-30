@@ -36,6 +36,7 @@ public:
      */
     double getLat() const;
     bool operator < (const Coordinates& that) const;
+    bool operator == (const Coordinates& that) const;
 
 private:
     /**
