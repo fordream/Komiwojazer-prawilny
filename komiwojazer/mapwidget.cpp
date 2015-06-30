@@ -2,6 +2,7 @@
 #include <iostream>
 #include <marble/GeoDataDocument.h>
 #include <QPainter>
+#include <unistd.h>
 
 MapWidget::MapWidget()
     : MarbleWidget()
@@ -51,18 +52,20 @@ void MapWidget::deleteMarker(Coordinates marker)
 void MapWidget::drawRoute(std::vector<Route> routes)
 {
     Route r;
-    if(routes.size()>0)
+//    if(routes.size()>0)
+//    {
+//        r = routes.at(0);
+//    }
+    for(auto it = routes.begin(); it!=routes.end(); ++it)
     {
-        r = routes.at(0);
+        drawRoute(*it);
+        //usleep(3000000);
+//        for(int i=0; i<it->size(); i++)
+//        {
+//            r.addRouteSegment(it->at(i));
+//        }
     }
-    for(auto it = routes.begin() + 1; it!=routes.end(); ++it)
-    {
-        for(int i=0; i<it->size(); i++)
-        {
-            r.addRouteSegment(it->at(i));
-        }
-    }
-    drawRoute(r);
+   // drawRoute(r);
 }
 
 void MapWidget::drawRoute(Route r)
@@ -70,7 +73,8 @@ void MapWidget::drawRoute(Route r)
     //this->routingLayer()->
     this->model()->routingManager()->routingModel()->clear();
     this->model()->routingManager()->routingModel()->setRoute(r);
-    this->show();
+    this->repaint();
+    //this->show();
 }
 
 Route MapWidget::findRoute(Coordinates from, Coordinates to)
