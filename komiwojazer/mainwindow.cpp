@@ -158,7 +158,10 @@ void MainWindow::calculate(int pluginNum)
                 Route route;
                 if(got == m_routesUnorderedMap.end())
                 {
-                    route = getRoute(from, to);
+                    if(!(from == to))
+                    {
+                        route = getRoute(from, to);
+                    }
                     if(!(from == to) && route.distance() == 0)
                     {
                         writeLog(QString("There is posibility there is no route from position %1 to %2").arg(i).arg(j));

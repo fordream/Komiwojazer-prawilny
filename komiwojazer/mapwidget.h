@@ -20,6 +20,7 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <tuple>
+#include <utility>
 
 using namespace Marble;
 
@@ -107,6 +108,7 @@ private:
     QImage getMarkerIcon(MarkerType type, QString text);
     Coordinates focusedMarker;
     Route route;
+    std::pair<Coordinates, Coordinates> m_currentRouteSearch;
 
 public slots:
     /**
@@ -136,7 +138,7 @@ public slots:
      * @brief routeRetrivedSlot
      * Wywoływany gdy droga została znaleziona
      */
-    void routeRetrivedSlot();
+    void routeRetrivedSlot(RoutingManager::State state);
 
 signals:
     /**

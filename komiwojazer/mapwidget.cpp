@@ -2,12 +2,11 @@
 #include <iostream>
 #include <marble/GeoDataDocument.h>
 #include <QPainter>
-#include <unistd.h>
 
 MapWidget::MapWidget()
     : MarbleWidget()
 {
-    connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
+    connect(this->model()->routingManager(), SIGNAL(stateChanged(RoutingManager::State)), this, SLOT(routeRetrivedSlot(RoutingManager::State)));
 }
 
 QVector<Place> MapWidget::findPlaceByName(QString name)
@@ -52,20 +51,18 @@ void MapWidget::deleteMarker(Coordinates marker)
 void MapWidget::drawRoute(std::vector<Route> routes)
 {
     Route r;
-//    if(routes.size()>0)
-//    {
-//        r = routes.at(0);
-//    }
-    for(auto it = routes.begin(); it!=routes.end(); ++it)
+    if(routes.size()>0)
     {
-        drawRoute(*it);
-        //usleep(3000000);
-//        for(int i=0; i<it->size(); i++)
-//        {
-//            r.addRouteSegment(it->at(i));
-//        }
+        r = routes.at(0);
     }
-   // drawRoute(r);
+    for(auto it = routes.begin() + 1; it!=routes.end(); ++it)
+    {
+        for(int i=0; i<it->size(); i++)
+        {
+            r.addRouteSegment(it->at(i));
+        }
+    }
+    drawRoute(r);
 }
 
 void MapWidget::drawRoute(Route r)
@@ -79,6 +76,7 @@ void MapWidget::drawRoute(Route r)
 
 Route MapWidget::findRoute(Coordinates from, Coordinates to)
 {
+    m_currentRouteSearch = std::make_pair(from, to);
     route = Route();
     if(from.getLat() != to.getLat() || from.getLon() != to.getLon())
     {
@@ -91,11 +89,12 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
         // Set start and destination
         request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
         request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
+        std::cout << request->at(0).latitude() << " " << from.getLat() <<std::endl;
         QEventLoop localEventLoop;
         QTimer watchdog;
         watchdog.setSingleShot(true);
         connect( &watchdog, SIGNAL(timeout()), &localEventLoop, SLOT(quit()));
-        connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
+        connect(this, SIGNAL(routeFoundSignal()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
         watchdog.start( 10000 );
         manager->retrieveRoute();
         localEventLoop.exec();
@@ -155,7 +154,29 @@ void MapWidget::center(Coordinates c)
     this->centerOn(GeoDataCoordinates(c.getLon(), c.getLat(), 0, GeoDataCoordinates::Radian));
 }
 
-void MapWidget::routeRetrivedSlot()
+void MapWidget::routeRetrivedSlot(RoutingManager::State state)
 {
-    route = this->model()->routingManager()->routingModel()->route();
+    if(state == RoutingManager::State::Retrieved)
+    {
+        route = Route(this->model()->routingManager()->routingModel()->route());
+        if(route.distance() == 0)
+            return;
+        if(route.path().size()){
+            qreal firstLat = route.path().first().latitude();
+            qreal firstLon = route.path().first().longitude();
+            qreal lastLat = route.path().last().latitude();
+            qreal lastLon = route.path().last().longitude();
+            std::cout << "firstLat " << firstLat << "real firstLat " << m_currentRouteSearch.first.getLat() << std::endl;
+            std::cout << "firstLon " << firstLon << "real firstLon " << m_currentRouteSearch.first.getLon() << std::endl;
+            std::cout << "lastLat " << lastLat << "real lastLat " << m_currentRouteSearch.first.getLat() << std::endl;
+            std::cout << "lastLon " << lastLon << "real lastLon " << m_currentRouteSearch.second.getLon() << std::endl;
+
+            std::cout << "firstLat " << route.at(0).path().first().latitude() << "real firstLat " << m_currentRouteSearch.first.getLat() << std::endl;
+            std::cout << "firstLon " << route.at(0).path().first().longitude() << "real firstLon " << m_currentRouteSearch.first.getLon() << std::endl;
+            std::cout << "lastLat " << route.at(route.size()-1).path().last().latitude() << "real lastLat " << m_currentRouteSearch.first.getLat() << std::endl;
+            std::cout << "lastLon " << route.at(route.size()-1).path().last().longitude() << "real lastLon " << m_currentRouteSearch.second.getLon() << std::endl;
+        }
+        this->model()->routingManager()->routeRequest()->clear();
+        emit this->routeFoundSignal();
+    }
 }
