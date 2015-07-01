@@ -2,6 +2,7 @@
 #include <iostream>
 #include <marble/GeoDataDocument.h>
 #include <QPainter>
+#include <QApplication>
 
 MapWidget::MapWidget()
     : MarbleWidget()
@@ -76,9 +77,8 @@ void MapWidget::drawRoute(Route r)
 
 Route MapWidget::findRoute(Coordinates from, Coordinates to)
 {
-    m_currentRouteSearch = std::make_pair(from, to);
     route = Route();
-    if(from.getLat() != to.getLat() || from.getLon() != to.getLon())
+    if(!(from == to))
     {
         RoutingManager* manager = this->model()->routingManager();
         RouteRequest* request = manager->routeRequest();
@@ -89,13 +89,12 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
         // Set start and destination
         request->append( GeoDataCoordinates( from.getLon(), from.getLat(), 0.0, GeoDataCoordinates::Radian) );
         request->append( GeoDataCoordinates( to.getLon(), to.getLat(), 0.0, GeoDataCoordinates::Radian ) );
-        std::cout << request->at(0).latitude() << " " << from.getLat() <<std::endl;
         QEventLoop localEventLoop;
         QTimer watchdog;
         watchdog.setSingleShot(true);
         connect( &watchdog, SIGNAL(timeout()), &localEventLoop, SLOT(quit()));
         connect(this, SIGNAL(routeFoundSignal()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
-        watchdog.start( 10000 );
+        watchdog.start( 20000 );
         manager->retrieveRoute();
         localEventLoop.exec();
     }
@@ -158,23 +157,38 @@ void MapWidget::routeRetrivedSlot(RoutingManager::State state)
 {
     if(state == RoutingManager::State::Retrieved)
     {
-        route = Route(this->model()->routingManager()->routingModel()->route());
-        if(route.distance() == 0)
-            return;
-        if(route.path().size()){
-            qreal firstLat = route.path().first().latitude();
-            qreal firstLon = route.path().first().longitude();
-            qreal lastLat = route.path().last().latitude();
-            qreal lastLon = route.path().last().longitude();
-            std::cout << "firstLat " << firstLat << "real firstLat " << m_currentRouteSearch.first.getLat() << std::endl;
-            std::cout << "firstLon " << firstLon << "real firstLon " << m_currentRouteSearch.first.getLon() << std::endl;
-            std::cout << "lastLat " << lastLat << "real lastLat " << m_currentRouteSearch.first.getLat() << std::endl;
-            std::cout << "lastLon " << lastLon << "real lastLon " << m_currentRouteSearch.second.getLon() << std::endl;
-
-            std::cout << "firstLat " << route.at(0).path().first().latitude() << "real firstLat " << m_currentRouteSearch.first.getLat() << std::endl;
-            std::cout << "firstLon " << route.at(0).path().first().longitude() << "real firstLon " << m_currentRouteSearch.first.getLon() << std::endl;
-            std::cout << "lastLat " << route.at(route.size()-1).path().last().latitude() << "real lastLat " << m_currentRouteSearch.first.getLat() << std::endl;
-            std::cout << "lastLon " << route.at(route.size()-1).path().last().longitude() << "real lastLon " << m_currentRouteSearch.second.getLon() << std::endl;
+        int alt_count = this->model()->routingManager()->alternativeRoutesModel()->rowCount();
+        uint start = QDateTime::currentDateTime().toTime_t();
+        while(alt_count == 0)
+        {
+            QApplication::processEvents();
+            alt_count = this->model()->routingManager()->alternativeRoutesModel()->rowCount();
+            if((QDateTime::currentDateTime().toTime_t() - start) > TIME_OUT)
+            {
+                break;
+            }
+        }
+        if(alt_count != 0)
+        {
+            qreal min = std::numeric_limits<qreal>::max();
+            int min_index = -1;
+            for(int i = 0; i < alt_count; ++i)
+            {
+                this->model()->routingManager()->alternativeRoutesModel()->setCurrentRoute(i);
+                route = Route(this->model()->routingManager()->routingModel()->route());
+                if(route.distance() < min)
+                {
+                    min = route.distance();
+                    min_index = i;
+                }
+            }
+            Q_ASSERT(min_index != -1);
+            this->model()->routingManager()->alternativeRoutesModel()->setCurrentRoute(min_index);
+            route = Route(this->model()->routingManager()->routingModel()->route());
+        }
+        else
+        {
+            route = Route();
         }
         this->model()->routingManager()->routeRequest()->clear();
         emit this->routeFoundSignal();

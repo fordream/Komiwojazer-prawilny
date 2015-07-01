@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <tuple>
 #include <utility>
+#include <marble/AlternativeRoutesModel.h>
 
 using namespace Marble;
 
@@ -31,7 +32,6 @@ using namespace Marble;
 class MapWidget : public MarbleWidget
 {
     Q_OBJECT
-
 public:
     /**
      * @brief MapWidget
@@ -108,7 +108,7 @@ private:
     QImage getMarkerIcon(MarkerType type, QString text);
     Coordinates focusedMarker;
     Route route;
-    std::pair<Coordinates, Coordinates> m_currentRouteSearch;
+    const uint TIME_OUT = 5;
 
 public slots:
     /**
@@ -139,7 +139,6 @@ public slots:
      * Wywoływany gdy droga została znaleziona
      */
     void routeRetrivedSlot(RoutingManager::State state);
-
 signals:
     /**
      * @brief placeSelected
