@@ -7,7 +7,8 @@
 MapWidget::MapWidget()
     : MarbleWidget()
 {
-    connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
+    //connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), this, SLOT(routeRetrivedSlot()));
+    connect(this->model()->routingManager(), SIGNAL(RoutingFinalyFinished()), this, SLOT(routeRetrivedSlot()));
 }
 
 QVector<Place> MapWidget::findPlaceByName(QString name)
@@ -51,7 +52,7 @@ void MapWidget::deleteMarker(Coordinates marker)
 
 void MapWidget::drawRoute(std::vector<Route> routes)
 {
-    Route r;
+//    Route r;
 //    if(routes.size()>0)
 //    {
 //        r = routes.at(0);
@@ -65,7 +66,7 @@ void MapWidget::drawRoute(std::vector<Route> routes)
 //            r.addRouteSegment(it->at(i));
 //        }
     }
-   // drawRoute(r);
+//    drawRoute(r);
 }
 
 void MapWidget::drawRoute(Route r)
@@ -95,8 +96,9 @@ Route MapWidget::findRoute(Coordinates from, Coordinates to)
         QTimer watchdog;
         watchdog.setSingleShot(true);
         connect( &watchdog, SIGNAL(timeout()), &localEventLoop, SLOT(quit()));
-        connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
-        watchdog.start( 10000 );
+        connect(this->model()->routingManager(), SIGNAL(RoutingFinalyFinished()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection);
+        //connect(this->model()->routingManager()->routingModel(), SIGNAL(currentRouteChanged()), &localEventLoop, SLOT(quit()), Qt::QueuedConnection );
+        watchdog.start( 30000 );
         manager->retrieveRoute();
         localEventLoop.exec();
     }

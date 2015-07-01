@@ -156,7 +156,7 @@ void MainWindow::calculate(int pluginNum)
                 std::pair<Coordinates, Coordinates> pair = std::make_pair(from, to);
                 std::unordered_map<std::pair<Coordinates, Coordinates>, Route, pairhash>::const_iterator got = m_routesUnorderedMap.find(pair);
                 Route route;
-                if(got == m_routesUnorderedMap.end())
+ //               if(got == m_routesUnorderedMap.end())
                 {
                     route = getRoute(from, to);
                     if(!(from == to) && route.distance() == 0)
@@ -168,21 +168,21 @@ void MainWindow::calculate(int pluginNum)
                         writeLog(QString("Found route from position %1 to %2").arg(i).arg(j));
                     }
                 }
-                else
-                {
-                    route = got->second;
-                    if(!(from == to) && route.distance() == 0)
-                    {
-                        writeLog(QString("There is posibility there is no route from position %1 to %2").arg(i).arg(j));
-                    }
-                    else
-                    {
-                        writeLog(QString("Already have route from position %1 to %2").arg(i).arg(j));
-                    }
-                }
+//                else
+//                {
+//                    route = got->second;
+//                    if(!(from == to) && route.distance() == 0)
+//                    {
+//                        writeLog(QString("There is posibility there is no route from position %1 to %2").arg(i).arg(j));
+//                    }
+//                    else
+//                    {
+//                        writeLog(QString("Already have route from position %1 to %2").arg(i).arg(j));
+//                    }
+//                }
 
                 routes[i][j] = route;
-                unordered_map[pair] = route;
+                //unordered_map[pair] = route;
 
             }
         }
