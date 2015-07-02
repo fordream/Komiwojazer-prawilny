@@ -127,6 +127,7 @@ void MainWindow::calculate(int pluginNum)
         int size = items.size();
         if(size==0)
         {
+            unlockGUI();
             return;
         }
         if(v_places.size()>0)

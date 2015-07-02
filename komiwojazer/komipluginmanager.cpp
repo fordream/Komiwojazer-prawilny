@@ -14,7 +14,7 @@ KomiPluginManager::~KomiPluginManager()
     //m_pluginsMap;
 //    for(QMap<int, KomiwojazerPluginInterface*>::iterator it = m_pluginsMap.begin(); it != m_pluginsMap.end(); ++it)
 //    {
-//        it.value()->
+//        delete it.value();
 //    }
 }
 
